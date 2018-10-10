@@ -1,0 +1,40 @@
+administrador:
+    pattern:  /
+    defaults: { _controller: 'FTPAdministradorBundle:Administrador:index' }
+    
+administrador_xml:
+    path:     /xml
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:xml" }
+
+administrador_new:
+    path:     /new
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:new" }
+    options:
+      expose: true 
+
+administrador_create:
+    path:     /create
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:create" }
+    methods:  POST
+
+administrador_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:edit" }
+    options:
+      expose: true 
+
+administrador_update:
+    path:     /{id}/update
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:update" }
+    methods:  [POST, PUT]
+
+administrador_delete:
+    path:     /delete
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:delete" }
+    options:
+      expose: true 
+
+administrador_update_permisos:
+    path:     /{id}/update_permisos
+    defaults: { _controller: "FTPAdministradorBundle:Administrador:updatePermisos" }
+    methods:  [POST, PUT]

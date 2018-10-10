@@ -1,0 +1,63 @@
+
+	<div class="uk-grid uk-height-1-1" data-uk-grid-margin="">
+		<div class="uk-width-1-2 ">
+			<div class="uk-panel uk-panel-box uk-height-1-1" style="overflow-y: scroll;">
+
+				<button class="uk-button uk-button-primary" type="button" id='transferencia'  >TRANSFERENCIA</button>
+				<span id='cargaT'><i class="uk-icon-refresh uk-icon-spin"></i></span>
+				<div id='transferenciaResultado' class='uk-text-small'></div>
+
+			</div>
+		</div>
+		<div class="uk-width-1-2">
+			<div class="uk-panel uk-panel-box uk-height-1-1" style="overflow-y: scroll;">
+					<button class="uk-button uk-button-success" type="button" id='convenios'  >CONVENIOS</button>
+					<span id='cargaC'><i class="uk-icon-refresh uk-icon-spin"></i></span>
+					<p id='convneniosResultado' class='uk-text-small'></p>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	$().ready(function(){
+		$('#cargaT,#cargaC').hide();
+		$('#transferencia').click(function(){
+			$('#cargaT').show();
+			$('#transferencia').attr('disabled',true);
+			procesar('proveedores_transferencia',1);
+		});
+
+		$('#convenios').click(function(){
+			$('#cargaC').show();
+			$('#convenios').attr('disabled',true);
+			procesar('proveedores_convenios',2);
+		});
+	});
+
+	function procesar(url,estado){
+		$.ajax({
+			url:Routing.generate(url),
+			method:'POST',
+			success:function(data){
+				console.log(data.template);
+				
+				if(data.app=='transferencista'){
+					//reloadGrid();
+					//delete data.app;
+					$('#transferenciaResultado').empty().html(data.template);
+				}
+				if(data.app=='convenios'){
+					reloadGrid();
+					//delete data.app;
+                    $('#convneniosResultado').empty().html(data.informe);
+
+				} 
+				$('#cargaT,#cargaC').hide();
+
+			},
+			error:function(){
+				$('.carga').hide();
+			}
+		});
+	}
+
+</script>

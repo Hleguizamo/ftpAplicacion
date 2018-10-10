@@ -1,0 +1,22 @@
+default:
+    pattern:  /
+    defaults: { _controller: 'FTPAdministradorBundle:Default:login' }
+
+administrador_default_login_error:
+    pattern:  /loginError
+    defaults: { _controller: 'FTPAdministradorBundle:Default:loginError' }
+
+administrador_default_login:
+    pattern:  /login
+    defaults: { _controller: 'FTPAdministradorBundle:Default:login' }
+
+administrador_default_login_check:
+    pattern: /login_check
+    
+administrador_default_logout:
+    pattern: /logout
+    defaults: { _controller: 'FTPAdministradorBundle:Default:logout' }
+
+administrador_default_recordar_clave:
+    pattern:  /recordar_clave
+    defaults: { _controller: 'FTPAdministradorBundle:Default:recordarClave' }

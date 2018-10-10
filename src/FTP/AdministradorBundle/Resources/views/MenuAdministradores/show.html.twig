@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>MenuAdministradores</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Idpermisos</th>
+                <td>{{ entity.idPermisos }}</td>
+            </tr>
+            <tr>
+                <th>Descripcionpermiso</th>
+                <td>{{ entity.descripcionPermiso }}</td>
+            </tr>
+            <tr>
+                <th>Modulodefecto</th>
+                <td>{{ entity.moduloDefecto }}</td>
+            </tr>
+            <tr>
+                <th>Acciondefecto</th>
+                <td>{{ entity.accionDefecto }}</td>
+            </tr>
+            <tr>
+                <th>Raiz</th>
+                <td>{{ entity.raiz }}</td>
+            </tr>
+            <tr>
+                <th>Accioncrear</th>
+                <td>{{ entity.accionCrear }}</td>
+            </tr>
+            <tr>
+                <th>Accioneditar</th>
+                <td>{{ entity.accionEditar }}</td>
+            </tr>
+            <tr>
+                <th>Accionmostrar</th>
+                <td>{{ entity.accionMostrar }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('menuadministradores') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('menuadministradores_edit', { 'id': entity.idPermisos }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

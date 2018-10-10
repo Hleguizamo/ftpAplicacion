@@ -1,0 +1,4 @@
+ADMINISTRADOR;ACTIVIDAD;TIEMPO;IP;
+{% for log in entities %}
+	{{log.nombre}};{{log.actividad}};{{log.tiempo |date('Y-m-d H:i:s') }};{{log.ip}};
+{% endfor %}

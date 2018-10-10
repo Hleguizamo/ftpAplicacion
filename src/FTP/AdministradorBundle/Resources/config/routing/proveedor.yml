@@ -1,0 +1,81 @@
+proveedor:
+    pattern:  /
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:index" }
+
+proveedor_xml:
+    pattern:  /xml
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:xml" }
+
+proveedor_new:
+    pattern:  /new
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:new" }
+    options:
+      expose: true 
+
+proveedor_create:
+    pattern:  /create
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:create" }
+
+proveedor_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:edit" }
+    options:
+      expose: true 
+
+proveedor_update:
+    pattern:  /update
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:update" }
+    options:
+      expose: true 
+
+proveedor_delete:
+    pattern:  /delete
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:delete" }
+    options:
+      expose: true 
+
+#Ruta cuando se procesarán todos los proveedores.
+proveedores_form:
+    pattern:  /proveedores
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:proveedoresForm" }
+    options:
+      expose: true 
+
+#Ruta cuando se procesará el proveedor seleccionado.
+proveedor_form:
+    pattern:  /{id}/proveedor
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:proveedorForm" }
+    options:
+      expose: true
+
+proveedor_actualizar_campo:
+    pattern:  /actualizarEstado
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:actualizar" }
+
+
+
+proveedor_transferencia:
+    pattern:  /transferencia
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:transferencia" }
+    options:
+      expose: true 
+
+proveedores_convenios:
+    pattern:  /proveedores_convenios
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:conveniosProveedores" }
+    options:
+      expose: true 
+
+proveedor_convenios:
+    pattern:  /proveedor_convenios
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:conveniosProveedor" }
+    options:
+      expose: true 
+
+proveedores_transferencia:
+    pattern:  /proveedores_transferencia
+    defaults: { _controller: "FTPAdministradorBundle:Proveedor:transferencias" }
+    options:
+      expose: true 
+
+

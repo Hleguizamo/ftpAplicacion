@@ -1,0 +1,111 @@
+<div class='uk-grid uk-text-small uk-margin-top'>
+    <div class='uk-pane uk-width-7-10' >
+        <nav>
+            <ul class="uk-subnav uk-subnav-pill">
+                {% if permisos.administrador.permiso is defined %}
+                    {% if permisos.administrador.permiso  != 0 %}
+                        <li {% if modulo == 'administrador' %}class="uk-active"{% endif %} title='Administradores'>
+                            <a href="{{ path('administrador') }}">
+                                <i class="uk-icon-user"></i>
+                                Administradores
+                            </a>
+                        </li>
+                    {% endif %} 
+                {% endif %}   
+                {% if permisos.log_admin.permiso  is defined %}     
+                    {% if permisos.log_admin.permiso  != 0 %}   
+                         <li {% if modulo == 'logAdmin' %}class="uk-active"{% endif %} title='Log Administrador'>
+                            <a href="{{ path('log_admin') }}">
+                                <i class="uk-icon-user-plus"></i>
+                                LogAdmin
+                            </a>
+                        </li>
+                    {% endif %} 
+                {% endif %} 
+                {% if permisos.proveedor.permiso  is defined %}     
+                    {% if permisos.proveedor.permiso  != 0 %}   
+                         <li {% if modulo == 'proveedor' %}class="uk-active"{% endif %} title='Proveedor'>
+                            <a href="{{ path('proveedor') }}">
+                                <i class="uk-icon-inbox"></i>
+                                Proveedor
+                            </a>
+                        </li>
+                    {% endif %} 
+                {% endif %} 
+                {#% if permisos.log_proveedores.permiso  is defined %#}     
+                    {#% if permisos.log_proveedores.permiso  != 0 %#}   
+                    <!--
+                         <li {#% if modulo == 'log_proveedores' %#}class="uk-active"{#% endif %#} title='Log Proveedores'>
+                            <a href="{{ path('log_proveedores') }}">
+                                <i class="uk-icon-unlock-alt"></i>
+                                LogProveedores
+                            </a>
+                        </li>
+                    !-->
+                    {#% endif %#} 
+                {#% endif %#} 
+
+                {% if permisos.log_sip_proveedores.permiso  is defined %}     
+                    {% if permisos.log_sip_proveedores.permiso  != 0 %}   
+                         <li {% if modulo == 'log_sip_proveedores' %}class="uk-active"{% endif %} title='Log Proveedores'>
+                            <a href="{{ path('log_sip_proveedores') }}">
+                                <i class="uk-icon-unlock-alt"></i>
+                                LogSipProveedores
+                            </a>
+                        </li>
+                    {% endif %} 
+                {% endif %} 
+
+            </ul>
+        </nav>
+    </div>
+    <div class='uk-pane uk-width-3-10' >
+        <div class="uk-clearfix">
+            <div class="uk-float-left">
+                <span class='uk-text-success' ><b>Administrador:</b> </span> {% if nombre is defined%} {{nombre}} {% endif %} 
+            </div>
+            <div class="uk-float-right">
+
+                <!-- <button type="submit"  data-uk-tooltip title="Cambiar clave" id="cambiarClave"  class="uk-button uk-button-small "><i class="uk-icon-key"></i></button> -->
+
+                    <button type="submit"  data-uk-tooltip title="Haga click para cerrar Sesión" id="Cerrar-Sesion"  class="uk-button uk-button-small uk-button-danger "><i class="uk-icon-power-off "></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('li').tooltip();
+
+         $('button').tooltip();
+        $('#Cerrar-Sesion').click(function (){
+            var noty_id = noty({
+                layout : 'center',
+                modal:true,
+                text: '¿ Confirma el cierre de sesion?',
+                buttons: [
+                    {addClass: 'btn btn-danger', text: 'ACEPTAR', onClick: function($noty) {
+                        location.href="{{path('administrador_default_logout')}}";
+                    }},
+                    {addClass: 'btn btn-primary', text: 'CANCELAR', onClick: function($noty) {
+                        $noty.close();
+                    }}
+                ],
+                type : 'success',
+                timeout: false
+            });
+        }); 
+
+        $('#cambiarClave').click(function (){ 
+             noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+             /*
+                $( "#dialog" ).load( Routing.generate('administradores_edit_pass'), function() {
+                    $('#dialog').dialog('option',{'title':'Cambiar clave',width:500,height:400 } );
+                    $("#dialog").dialog('open'); 
+                        $("#dialog").dialog('open');
+                        $.noty.closeAll();
+                }); 
+            */    
+        });
+    });
+</script>

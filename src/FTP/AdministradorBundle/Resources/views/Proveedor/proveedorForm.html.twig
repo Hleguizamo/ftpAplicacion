@@ -1,0 +1,94 @@
+	<div class="uk-grid uk-height-1-1" data-uk-grid-margin="">
+		{% if proveedor.id is defined %}
+			<div class="uk-width-1-2">
+				<div class="uk-panel uk-panel-box uk-height-1-1" style="overflow-y: scroll;">
+					{% if proveedor.carpetaTransferencista is null or proveedor.carpetaTransferencista is empty %}	
+						<span class='uk-text-warning uk-text-bold uk-text-small'>
+				  			La carpeta no se encuentra registrada en el sistema.
+						</span>
+					{% else %}
+						{% if proveedor.estadoTransferencia %}
+							<button class="uk-button uk-button-primary" type="button" id='transferencia'  title='SIPproveedores'>TRANSFERENCIA</button>
+							<span id='cargaT'><i class="uk-icon-refresh uk-icon-spin"></i></span>
+							<div id='transferenciaResultado' class='uk-text-small'></div>
+						{% else %}
+							<span class='uk-text-warning uk-text-bold uk-text-small'>
+				  				El proveedor se encuentra deshabilitado para realizar transacciones a SIPproveedores.
+							</span>
+						{% endif %}
+					{% endif %}	
+				</div>
+			</div>
+			<div class="uk-width-1-2">
+				<div class="uk-panel uk-panel-box uk-height-1-1 " style="overflow-y: scroll;">
+					{% if proveedor.carpetaConvenios is null or proveedor.carpetaConvenios is empty %}	
+						<span class='uk-text-warning uk-text-bold uk-text-small'>
+				  			La carpeta no se encuentra registrada en el sistema.
+						</span>
+					{% else %}
+						{% if proveedor.estadoConvenios %}
+							<button class="uk-button uk-button-success" type="button" id='convenios'  title='Convenios'>CONVENIOS</button>
+							<span id='cargaC'><i class="uk-icon-refresh uk-icon-spin"></i></span>
+							<p id='convneniosResultado' class='uk-text-small'></p>
+						{% else %}
+							<span class='uk-text-warning uk-text-bold uk-text-small'>
+				  				El proveedor se encuentra deshabilitado para realizar transacciones a Convenios.
+							</span>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		{% else %}
+			<span class='uk-text-warning uk-text-bold uk-text-small'>
+			  Ocurrio un error al cargar el formulario. Porfavor recargue la página e intentelo de nuevo.
+			</span>
+		{% endif %}
+	</div>
+
+<script type="text/javascript">
+	$().ready(function(){
+		$('#cargaT,#cargaC').hide();
+		$('#transferencia').click(function(){
+			$('#cargaT').show();
+			$('#transferencia').attr('disabled',true);
+			procesar('proveedor_transferencia',1);
+		});
+
+		$('#convenios').click(function(){
+			$('#cargaC').show();
+			$('#convenios').attr('disabled',true);
+			procesar('proveedor_convenios',2);
+		});
+	});
+
+	function procesar(url,estado){
+		$.ajax({
+			url:Routing.generate(url),
+			data:{'data':(estado==2)?'{{proveedor.nitProveedor}}':'{{proveedor.codigoProveedor}}'},
+			method:'POST',
+			success:function(data){
+				
+				if(data.app=='transferencista'){
+						reloadGrid();
+						//delete data.app;
+						//delete data.estado;
+						$('#transferenciaResultado').empty().html(data.template);	
+					
+				}
+				if(data.app=='convenios'){
+					reloadGrid();
+					//delete data.app;
+					{#$('#convneniosResultado').load('{{path('proveedor_informe')}}',{'data':data});#}
+                                        $('#convneniosResultado').empty().html(data.informe);
+					
+				} 
+				$('#cargaT,#cargaC').hide();
+
+			},
+			error:function(){
+				$('.carga').hide();
+			}
+		});
+	}
+
+</script>

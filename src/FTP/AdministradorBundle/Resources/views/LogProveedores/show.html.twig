@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>LogProveedor</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombrearchivo</th>
+                <td>{{ entity.nombreArchivo }}</td>
+            </tr>
+            <tr>
+                <th>Transacciones</th>
+                <td>{{ entity.transacciones }}</td>
+            </tr>
+            <tr>
+                <th>Codigodrogueria</th>
+                <td>{{ entity.codigoDrogueria }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ entity.estado }}</td>
+            </tr>
+            <tr>
+                <th>Codigopedido</th>
+                <td>{{ entity.codigoPedido }}</td>
+            </tr>
+            <tr>
+                <th>Totalpedido</th>
+                <td>{{ entity.totalPedido }}</td>
+            </tr>
+            <tr>
+                <th>Numproductos</th>
+                <td>{{ entity.numProductos }}</td>
+            </tr>
+            <tr>
+                <th>Fechaconfirmado</th>
+                <td>{{ entity.fechaConfirmado|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('logproveedor') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('logproveedor_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rows>
+    <page>{{ pagina }}</page>
+    <total>{{ maxPagina }}</total>
+    <records>{{ numRegistros }}</records>
+    {% for entity in entities %}
+    <row id="{{ entity.id }}">
+        <cell>{{ entity.id }}</cell>
+        <cell><![CDATA[{{ entity.nombreArchivo }}]]></cell>
+        <cell><![CDATA[ {{entity.transacciones}}  ]]></cell> 
+        <cell><![CDATA[ {{entity.codigoDrogueria}}  ]]></cell> 
+        <cell><![CDATA[ {% if entity.estado ==1 %}Cargado correctamente{% else %}No generado{% endif %} ]]></cell>    
+        <cell><![CDATA[{{ entity.codigoPedido }}]]></cell>  
+        <cell><![CDATA[{{ entity.totalPedido | number_format('0','','.') }}]]></cell>  
+        <cell><![CDATA[{{ entity.numProductos }}]]></cell> 
+        <cell><![CDATA[{{ entity.fechaConfirmado is empty ? "" : entity.fechaConfirmado | date('Y-m-d H:i:s') }}]]></cell>
+        <cell><![CDATA[ {{entity.proveedor}}  ]]></cell>                                       
+    </row>
+    {% endfor %}
+</rows>

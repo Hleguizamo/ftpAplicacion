@@ -1,0 +1,40 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>PermisosAdministradores</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Idpermisos</th>
+                <td>{{ entity.idPermisos }}</td>
+            </tr>
+            <tr>
+                <th>Idadministrador</th>
+                <td>{{ entity.idAdministrador }}</td>
+            </tr>
+            <tr>
+                <th>Idpermiso</th>
+                <td>{{ entity.idPermiso }}</td>
+            </tr>
+            <tr>
+                <th>Tipopermiso</th>
+                <td>{{ entity.tipoPermiso }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('permisosadministradores') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('permisosadministradores_edit', { 'id': entity.idPermisos }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

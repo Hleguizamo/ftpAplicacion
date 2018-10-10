@@ -1,0 +1,27 @@
+ftp_administrador:
+    path:     /
+    defaults: { _controller: 'FTPAdministradorBundle:Default:login'}
+
+ftp_administrador_administrador:
+    resource: "@FTPAdministradorBundle/Resources/config/routing/administrador.yml"
+    prefix:   /administrador
+
+ftp_administrador_default:
+    resource: "@FTPAdministradorBundle/Resources/config/routing/default.yml"
+    prefix:   /default
+
+ftp_administrador_log_admin:
+    resource: "@FTPAdministradorBundle/Resources/config/routing/logAdmin.yml"
+    prefix:   /log_admin
+
+ftp_administrador_proveedor:
+    resource: "@FTPAdministradorBundle/Resources/config/routing/proveedor.yml"
+    prefix:   /proveedor
+
+ftp_administrador_log_proveedor:
+    resource: "@FTPAdministradorBundle/Resources/config/routing/logProveedores.yml"
+    prefix:   /log_proveedores
+    
+ftp_administrador_log_sip_proveedores:
+    resource: "@FTPAdministradorBundle/Resources/config/routing/logSipProveedores.yml"
+    prefix:   /log_sip_proveedores

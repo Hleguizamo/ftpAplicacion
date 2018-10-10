@@ -1,0 +1,210 @@
+{% if mensajeInterfaz %}<ul>{% for mensaje in mensajeInterfaz %}{% for detalle in mensaje %}<li>{{detalle}}</li>{% endfor %}{% endfor %}</ul>{% endif %}
+	{% if inventario is defined %}
+		{% if inventario %}
+			<p class="uk-text-center uk-text-bold uk-text-primary"> Inventario cargado correctamente </p>
+		{% else %}
+			<p class="uk-text-center uk-text-bold uk-text-danger"> Al parecer se ha presentado un problema al cargar el inventario. Por favor verificar la fecha de edición de los archivos. </p>
+		{% endif %}
+
+	{% endif %}
+{#
+	{% if proveedores %}
+		{% for proveedor in proveedores %}
+			<div class='uk-container uk-text-bold uk-text-center'>
+				<span class='uk-text-danger uk-text-large'>{{proveedor}}</span>	
+			</div>
+			{% if archivos %}
+				{% for archivo in archivos[proveedor] %}
+					<div class='uk-container uk-text-bold uk-text-center'>
+						{{archivo}}
+					</div>
+					{% if consecutivos[proveedor][archivo] is defined %}
+						<div class='uk-container uk-text-bold uk-text-center'>
+							Pedidos insertados: {{consecutivos[proveedor][archivo] |length }}
+							{% set cont=1 %}
+						</div>
+						{% for codigo,consecutivo in consecutivos[proveedor][archivo] %}
+							<table class='uk-table'>
+								<tr>
+									<td colspan='2'>
+										<span class='uk-text-primary uk-text-small'>Pedido número: {{cont}}</span>
+										{% set cont=cont+1 %}
+									</td>
+								</tr>
+								<tr>
+									<td colspan='2'>
+										<strong>Pedido N°: </strong>
+										{{consecutivo}}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<strong>Droguería: </strong>
+										{{datosPedido[proveedor][archivo][consecutivo]['drogueria']}}
+									</td>
+									<td>
+										<strong>Código: </strong>
+										{{codigo}}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<strong>Total de productos: </strong>
+										{{datosPedido[proveedor][archivo][consecutivo]['totalProductos']}}
+									</td>
+									<td>
+										<strong>Total: $ </strong>
+										{{datosPedido[proveedor][archivo][consecutivo]['totalPedido'] |number_format(0, '', '.') }}
+									</td>
+								</tr>
+							</table>
+
+
+							<table class='uk-table uk-text-small'>
+								{% if productosInsertados[proveedor][archivo][consecutivo]['pedidos'] is defined %}
+									<tr>
+										<td colspan='2' class='uk-text-center'><strong>PRODUCTOS INGRESADOS</strong></td>
+									</tr>
+									{% for value in productosInsertados[proveedor][archivo][consecutivo]['pedidos'] %}
+										<tr >
+											<td colspan='2'>
+												{{value}}
+											</td>
+										</tr>	
+									{% endfor %}
+									
+								{% endif %}	
+								{% if productosInsertados[proveedor][archivo][consecutivo]['kits'] is defined %}
+									<tr>
+										<td colspan='2' class='uk-text-center'>
+											<strong>KITS INGRESADOS</strong>
+										</td>
+									</tr>
+									{% for value in productosInsertados[proveedor][archivo][consecutivo]['kits'] %}
+										<tr >
+											<td colspan='2'>
+												{{value}}
+											</td>
+										</tr>	
+									{% endfor %}
+								
+								{% endif %}	
+								{% if productosInsertados[proveedor][archivo][consecutivo]['prepack'] is defined %}
+									<tr>
+										<td colspan='2'>
+											<strong class='uk-text-center'>PREPACKS INGRESADOS</strong>
+										</td>
+									</tr>
+									{% for value in productosInsertados[proveedor][archivo][consecutivo]['prepack'] %}
+										<tr >
+											<td colspan='2'>
+												{{value}}
+											</td>
+										</tr>	
+									{% endfor %}
+								{% endif %}			
+							</table>
+						{% endfor %}
+					{% endif %}
+
+					{% if noLeidas[proveedor][archivo]  is defined %}
+						<table class='uk-table'>
+							<tr>
+								<td><strong>Líneas no leidas</strong></td>
+							</tr>
+							{% for linea in noLeidas[proveedor][archivo] %}
+								<tr>
+									<td>
+										{{linea}}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>	
+					{% endif %}
+
+					{% if estadoFTP[proveedor][archivo] is defined %}
+					  	<table class='uk-table'>
+							<tr>
+								<td><strong>Estado FTP</strong></td>
+							</tr>
+							{% for ftp in estadoFTP[proveedor][archivo] %}
+								<tr>
+									<td>
+										{{ftp}}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+	{% endif %} 
+	{% if sinArchivos %}
+		<table class='uk-table'>
+			<tr>
+				<td class='uk-text-danger uk-text-center'>No hay archivos disponibles.</td>
+			</tr>
+			{% for proveedor in sinArchivos %}
+				<tr>
+					<td>
+						{{proveedor}}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+	{% if carpetasCreadas %}
+		<table class='uk-table'>
+			<tr>
+				<td class='uk-text-danger uk-text-center'>Carpetas creadas</td>
+			</tr>
+			{% for proveedor in carpetasCreadas %}
+				<tr>
+					<td>
+						{{proveedor}}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+	{% if inventarioTxt %}
+		<table class='uk-table'>
+			<tr>
+				<td class='uk-text-danger uk-text-center'>Inventario generado</td>
+			</tr>
+			{% for archivo in inventarioTxt %}
+				<tr>
+					<td>
+						{{archivo}}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+	{% if inhabilitados %}
+		<table class='uk-table'>
+			<tr>
+				<td class='uk-text-danger uk-text-center'>Proveedores no procesados</td>
+			</tr>
+			{% for proveedor in inhabilitados %}
+				<tr>
+					<td>
+						{{proveedor}}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+	{% if carpetas %}
+		<table class='uk-table'>
+			{% for proveedor in carpetas %}
+				<tr>
+					<td>
+						{{proveedor}}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+#}	

@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>MenuAdministradores list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Idpermisos</th>
+                <th>Descripcionpermiso</th>
+                <th>Modulodefecto</th>
+                <th>Acciondefecto</th>
+                <th>Raiz</th>
+                <th>Accioncrear</th>
+                <th>Accioneditar</th>
+                <th>Accionmostrar</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('menuadministradores_show', { 'id': entity.idPermisos }) }}">{{ entity.idPermisos }}</a></td>
+                <td>{{ entity.descripcionPermiso }}</td>
+                <td>{{ entity.moduloDefecto }}</td>
+                <td>{{ entity.accionDefecto }}</td>
+                <td>{{ entity.raiz }}</td>
+                <td>{{ entity.accionCrear }}</td>
+                <td>{{ entity.accionEditar }}</td>
+                <td>{{ entity.accionMostrar }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('menuadministradores_show', { 'id': entity.idPermisos }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('menuadministradores_edit', { 'id': entity.idPermisos }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('menuadministradores_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

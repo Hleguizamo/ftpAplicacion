@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>AceptacionContrato</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigodrogeria</th>
+                <td>{{ entity.codigoDrogeria }}</td>
+            </tr>
+            <tr>
+                <th>Nitasociado</th>
+                <td>{{ entity.nitAsociado }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ entity.estado }}</td>
+            </tr>
+            <tr>
+                <th>Clave</th>
+                <td>{{ entity.clave }}</td>
+            </tr>
+            <tr>
+                <th>Tiempo</th>
+                <td>{{ entity.tiempo|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Pruebas</th>
+                <td>{{ entity.pruebas }}</td>
+            </tr>
+            <tr>
+                <th>Ultimoacceso</th>
+                <td>{{ entity.ultimoAcceso|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Cambioclave</th>
+                <td>{{ entity.cambioClave|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Clave1</th>
+                <td>{{ entity.clave1 }}</td>
+            </tr>
+            <tr>
+                <th>Clave2</th>
+                <td>{{ entity.clave2 }}</td>
+            </tr>
+            <tr>
+                <th>Ultimaclave</th>
+                <td>{{ entity.ultimaClave }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('aceptacioncontrato') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('aceptacioncontrato_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

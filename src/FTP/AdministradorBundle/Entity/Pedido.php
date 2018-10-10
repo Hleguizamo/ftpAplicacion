@@ -1,0 +1,731 @@
+<?php
+
+namespace FTP\AdministradorBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Pedido
+ *
+ * @ORM\Table(name="pedido", indexes={@ORM\Index(name="transf_id", columns={"transferencista_id"}), @ORM\Index(name="pedido_proveedor_id", columns={"proveedor_id"}), @ORM\Index(name="pedido_codigo_drogueria", columns={"codigo_drogueria"})})
+ * @ORM\Entity
+ */
+class Pedido
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="consecutivo", type="string", length=30, nullable=false)
+     */
+    private $consecutivo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=false)
+     */
+    private $fecha;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="codigo_drogueria", type="integer", nullable=false)
+     */
+    private $codigoDrogueria;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="total_pesos", type="integer", nullable=false)
+     */
+    private $totalPesos;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="productos", type="integer", nullable=false)
+     */
+    private $productos;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_cajas", type="string", length=5, nullable=false)
+     */
+    private $numeroCajas;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_enviado_proveedor", type="datetime", nullable=false)
+     */
+    private $fechaEnviadoProveedor;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_recibido_copidrogas", type="datetime", nullable=false)
+     */
+    private $fechaRecibidoCopidrogas;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_enviado_asociado", type="datetime", nullable=false)
+     */
+    private $fechaEnviadoAsociado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_factura", type="string", length=30, nullable=false)
+     */
+    private $numeroFactura;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_eliminado", type="datetime", nullable=false)
+     */
+    private $fechaEliminado = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="cargado_ftp", type="boolean", nullable=false)
+     */
+    private $cargadoFtp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="factura_copidrogas", type="string", length=30, nullable=true)
+     */
+    private $facturaCopidrogas;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="remision", type="string", length=255, nullable=false)
+     */
+    private $remision;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero_productos", type="integer", nullable=false)
+     */
+    private $numeroProductos;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_pedido", type="datetime", nullable=true)
+     */
+    private $fechaPedido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_pedido", type="string", length=30, nullable=true)
+     */
+    private $numeroPedido;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_factura", type="datetime", nullable=true)
+     */
+    private $fechaFactura;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pedido_procesado", type="integer", nullable=true)
+     */
+    private $pedidoProcesado;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_procesado", type="datetime", nullable=true)
+     */
+    private $fechaProcesado;
+
+    /**
+     * @var \Proveedor
+     *
+     * @ORM\ManyToOne(targetEntity="Proveedor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
+     * })
+     */
+    private $proveedor;
+
+    /**
+     * @var \Transferencista
+     *
+     * @ORM\ManyToOne(targetEntity="Transferencista")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="transferencista_id", referencedColumnName="id")
+     * })
+     */
+    private $transferencista;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set consecutivo
+     *
+     * @param string $consecutivo
+     * @return Pedido
+     */
+    public function setConsecutivo($consecutivo)
+    {
+        $this->consecutivo = $consecutivo;
+
+        return $this;
+    }
+
+    /**
+     * Get consecutivo
+     *
+     * @return string 
+     */
+    public function getConsecutivo()
+    {
+        return $this->consecutivo;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     * @return Pedido
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime 
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set codigoDrogueria
+     *
+     * @param integer $codigoDrogueria
+     * @return Pedido
+     */
+    public function setCodigoDrogueria($codigoDrogueria)
+    {
+        $this->codigoDrogueria = $codigoDrogueria;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoDrogueria
+     *
+     * @return integer 
+     */
+    public function getCodigoDrogueria()
+    {
+        return $this->codigoDrogueria;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param integer $estado
+     * @return Pedido
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return integer 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Set totalPesos
+     *
+     * @param integer $totalPesos
+     * @return Pedido
+     */
+    public function setTotalPesos($totalPesos)
+    {
+        $this->totalPesos = $totalPesos;
+
+        return $this;
+    }
+
+    /**
+     * Get totalPesos
+     *
+     * @return integer 
+     */
+    public function getTotalPesos()
+    {
+        return $this->totalPesos;
+    }
+
+    /**
+     * Set productos
+     *
+     * @param integer $productos
+     * @return Pedido
+     */
+    public function setProductos($productos)
+    {
+        $this->productos = $productos;
+
+        return $this;
+    }
+
+    /**
+     * Get productos
+     *
+     * @return integer 
+     */
+    public function getProductos()
+    {
+        return $this->productos;
+    }
+
+    /**
+     * Set numeroCajas
+     *
+     * @param string $numeroCajas
+     * @return Pedido
+     */
+    public function setNumeroCajas($numeroCajas)
+    {
+        $this->numeroCajas = $numeroCajas;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroCajas
+     *
+     * @return string 
+     */
+    public function getNumeroCajas()
+    {
+        return $this->numeroCajas;
+    }
+
+    /**
+     * Set fechaEnviadoProveedor
+     *
+     * @param \DateTime $fechaEnviadoProveedor
+     * @return Pedido
+     */
+    public function setFechaEnviadoProveedor($fechaEnviadoProveedor)
+    {
+        $this->fechaEnviadoProveedor = $fechaEnviadoProveedor;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaEnviadoProveedor
+     *
+     * @return \DateTime 
+     */
+    public function getFechaEnviadoProveedor()
+    {
+        return $this->fechaEnviadoProveedor;
+    }
+
+    /**
+     * Set fechaRecibidoCopidrogas
+     *
+     * @param \DateTime $fechaRecibidoCopidrogas
+     * @return Pedido
+     */
+    public function setFechaRecibidoCopidrogas($fechaRecibidoCopidrogas)
+    {
+        $this->fechaRecibidoCopidrogas = $fechaRecibidoCopidrogas;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaRecibidoCopidrogas
+     *
+     * @return \DateTime 
+     */
+    public function getFechaRecibidoCopidrogas()
+    {
+        return $this->fechaRecibidoCopidrogas;
+    }
+
+    /**
+     * Set fechaEnviadoAsociado
+     *
+     * @param \DateTime $fechaEnviadoAsociado
+     * @return Pedido
+     */
+    public function setFechaEnviadoAsociado($fechaEnviadoAsociado)
+    {
+        $this->fechaEnviadoAsociado = $fechaEnviadoAsociado;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaEnviadoAsociado
+     *
+     * @return \DateTime 
+     */
+    public function getFechaEnviadoAsociado()
+    {
+        return $this->fechaEnviadoAsociado;
+    }
+
+    /**
+     * Set numeroFactura
+     *
+     * @param string $numeroFactura
+     * @return Pedido
+     */
+    public function setNumeroFactura($numeroFactura)
+    {
+        $this->numeroFactura = $numeroFactura;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroFactura
+     *
+     * @return string 
+     */
+    public function getNumeroFactura()
+    {
+        return $this->numeroFactura;
+    }
+
+    /**
+     * Set fechaEliminado
+     *
+     * @param \DateTime $fechaEliminado
+     * @return Pedido
+     */
+    public function setFechaEliminado($fechaEliminado)
+    {
+        $this->fechaEliminado = $fechaEliminado;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaEliminado
+     *
+     * @return \DateTime 
+     */
+    public function getFechaEliminado()
+    {
+        return $this->fechaEliminado;
+    }
+
+    /**
+     * Set cargadoFtp
+     *
+     * @param boolean $cargadoFtp
+     * @return Pedido
+     */
+    public function setCargadoFtp($cargadoFtp)
+    {
+        $this->cargadoFtp = $cargadoFtp;
+
+        return $this;
+    }
+
+    /**
+     * Get cargadoFtp
+     *
+     * @return boolean 
+     */
+    public function getCargadoFtp()
+    {
+        return $this->cargadoFtp;
+    }
+
+    /**
+     * Set facturaCopidrogas
+     *
+     * @param string $facturaCopidrogas
+     * @return Pedido
+     */
+    public function setFacturaCopidrogas($facturaCopidrogas)
+    {
+        $this->facturaCopidrogas = $facturaCopidrogas;
+
+        return $this;
+    }
+
+    /**
+     * Get facturaCopidrogas
+     *
+     * @return string 
+     */
+    public function getFacturaCopidrogas()
+    {
+        return $this->facturaCopidrogas;
+    }
+
+    /**
+     * Set remision
+     *
+     * @param string $remision
+     * @return Pedido
+     */
+    public function setRemision($remision)
+    {
+        $this->remision = $remision;
+
+        return $this;
+    }
+
+    /**
+     * Get remision
+     *
+     * @return string 
+     */
+    public function getRemision()
+    {
+        return $this->remision;
+    }
+
+    /**
+     * Set numeroProductos
+     *
+     * @param integer $numeroProductos
+     * @return Pedido
+     */
+    public function setNumeroProductos($numeroProductos)
+    {
+        $this->numeroProductos = $numeroProductos;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroProductos
+     *
+     * @return integer 
+     */
+    public function getNumeroProductos()
+    {
+        return $this->numeroProductos;
+    }
+
+    /**
+     * Set fechaPedido
+     *
+     * @param \DateTime $fechaPedido
+     * @return Pedido
+     */
+    public function setFechaPedido($fechaPedido)
+    {
+        $this->fechaPedido = $fechaPedido;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaPedido
+     *
+     * @return \DateTime 
+     */
+    public function getFechaPedido()
+    {
+        return $this->fechaPedido;
+    }
+
+    /**
+     * Set numeroPedido
+     *
+     * @param string $numeroPedido
+     * @return Pedido
+     */
+    public function setNumeroPedido($numeroPedido)
+    {
+        $this->numeroPedido = $numeroPedido;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroPedido
+     *
+     * @return string 
+     */
+    public function getNumeroPedido()
+    {
+        return $this->numeroPedido;
+    }
+
+    /**
+     * Set fechaFactura
+     *
+     * @param \DateTime $fechaFactura
+     * @return Pedido
+     */
+    public function setFechaFactura($fechaFactura)
+    {
+        $this->fechaFactura = $fechaFactura;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaFactura
+     *
+     * @return \DateTime 
+     */
+    public function getFechaFactura()
+    {
+        return $this->fechaFactura;
+    }
+
+    /**
+     * Set pedidoProcesado
+     *
+     * @param integer $pedidoProcesado
+     * @return Pedido
+     */
+    public function setPedidoProcesado($pedidoProcesado)
+    {
+        $this->pedidoProcesado = $pedidoProcesado;
+
+        return $this;
+    }
+
+    /**
+     * Get pedidoProcesado
+     *
+     * @return integer 
+     */
+    public function getPedidoProcesado()
+    {
+        return $this->pedidoProcesado;
+    }
+
+    /**
+     * Set fechaProcesado
+     *
+     * @param \DateTime $fechaProcesado
+     * @return Pedido
+     */
+    public function setFechaProcesado($fechaProcesado)
+    {
+        $this->fechaProcesado = $fechaProcesado;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaProcesado
+     *
+     * @return \DateTime 
+     */
+    public function getFechaProcesado()
+    {
+        return $this->fechaProcesado;
+    }
+
+    /**
+     * Set proveedor
+     *
+     * @param \FTP\AdministradorBundle\Entity\Proveedor $proveedor
+     * @return Pedido
+     */
+    public function setProveedor(\FTP\AdministradorBundle\Entity\Proveedor $proveedor = null)
+    {
+        $this->proveedor = $proveedor;
+
+        return $this;
+    }
+
+    /**
+     * Get proveedor
+     *
+     * @return \FTP\AdministradorBundle\Entity\Proveedor 
+     */
+    public function getProveedor()
+    {
+        return $this->proveedor;
+    }
+
+    /**
+     * Set transferencista
+     *
+     * @param \FTP\AdministradorBundle\Entity\Transferencista $transferencista
+     * @return Pedido
+     */
+    public function setTransferencista(\FTP\AdministradorBundle\Entity\Transferencista $transferencista = null)
+    {
+        $this->transferencista = $transferencista;
+
+        return $this;
+    }
+
+    /**
+     * Get transferencista
+     *
+     * @return \FTP\AdministradorBundle\Entity\Transferencista 
+     */
+    public function getTransferencista()
+    {
+        return $this->transferencista;
+    }
+}

@@ -1,0 +1,147 @@
+<script type="text/javascript">
+    datePick = function(elem) {
+        jQuery(elem).datetimepicker({
+            changeMonth: true,
+            changeYear: true,
+            lang: 'es',
+            yearRange: "1900:2022"
+        });
+    };
+
+	jQuery().ready(function (){
+            $("#grilla").jqGrid({
+                url:'{{path("administrador_xml")}}',
+                datatype: "xml",
+                colModel: [
+                	{ label: 'ID', name:'id',index:'a.id', hidden: true},
+                    { label: 'NOMBRE', name: 'nombre', key: true, width: 150,index:'a.nombre' },
+                    { label: 'USUARIO', name: 'usuario', width: 150 ,index:'a.usuario'},
+                    { label: 'CORREO', name: 'correo', width: 150,index:'a.email' },
+                    { label: 'SEGUIMIENTO', name: 'seguimiento', width: 75,align:'center',index:'a.seguimiento'},
+                    { label:'ÚLTIMO INGRESO', name: 'ultimoIngreso', width: 150,index:'a.ultimoIngreso', search: true, searchtype: "number", searchoptions: {dataInit: datePick, attr: {title: 'Seleccione la fecha'}}},
+                    { label:'ESTADO', name: 'estado', width: 75,index:'a.estado' }
+                ],
+                    rowNum: 100,
+                    autowidth: true,
+                    rowList: [100,200,300,400],
+                    pager: '#pGrilla',
+                    sortname: 'a.usuario',
+                    viewrecords:true,
+                    sortorder: "ASC",
+                    height:($(document).height()-150)
+                ,ondblClickRow: function(ids) { 
+                {% if permisos.administrador.permiso == 1  or permisos.administrador.permiso ==2 %}  
+                    noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                    dataRow = jQuery(this).getRowData(ids); 
+                    $( "#dialog" ).load( Routing.generate('administrador_edit', { id: dataRow.id}), function() {
+                    $('#dialog').dialog('option',{'title':'Editar Administrador',width:$(document).width()-80,height:$(document).height()-150 } );
+                    $("#dialog").dialog('open'); 
+                        $("#dialog").dialog('open');
+                        $.noty.closeAll();
+                    });
+                {%endif%}
+                }
+            });
+            // activate the build in search with multiple option
+            $('#grilla').navGrid("#pGrilla", {                
+                search: true, // show search button on the toolbar
+                add: false,
+                edit: false,
+                del: false,
+                refresh: true
+            },
+            {}, // edit options
+            {}, // add options
+            {}, // delete options
+            { multipleSearch: true } // search options - define multiple search
+            );
+            {% if permisos.administrador.permiso == 1 %}   
+		        jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' <i class="uk-icon-plus-square-o"></i> Nuevo',title:'Nuevo Administrador.', buttonicon:'none', onClickButton:function(){ 
+		            noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+		            $('#dialog').dialog('option',{'title':'Nuevo Administrador',width:$(document).width()-80,height:$(document).height()-100  } );
+		 			    $( "#dialog" ).load( Routing.generate('administrador_new'), function() {
+		                    $("#dialog").dialog('open');
+		                    $.noty.closeAll();
+		                });
+		            
+		        }});
+	    	{% endif %}
+            {% if permisos.administrador.permiso == 1  or permisos.administrador.permiso ==2 %}   
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' <i class="uk-icon-pencil"></i> Editar',title:'Editar Administrador', buttonicon:'none', onClickButton:function(){ 
+                    var gsr = jQuery("#grilla").jqGrid('getGridParam','selrow'); 
+                    if(gsr){
+                        noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                        dataRow = jQuery("#grilla").getRowData(gsr);
+                        $( "#dialog" ).load( Routing.generate('administrador_edit', { id: dataRow.id}), function() {
+                            $('#dialog').dialog('option',{'title':'Editar Administrador',width:$(document).width()-80,height:$(document).height()-100 } );
+                            $("#dialog").dialog('open');
+                            $.noty.closeAll();
+                        });
+         
+                    } 
+                    else { 
+                        AlertaPersonalizable('Porfavor seleccione la fila a editar.',900,'warning'); 
+                    } 
+                }});
+            {% endif %}
+
+            {% if permisos.administrador.permiso == 1  %}
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' <i class="uk-icon-trash"></i> Eliminar', buttonicon:'none',title:'Eliminar administrador', onClickButton:function(){ 
+                    var gsr = jQuery("#grilla").jqGrid('getGridParam','selrow'); 
+                    if(gsr){
+                        dataRow = jQuery("#grilla").getRowData(gsr);
+                        noty({
+                            layout : 'center',
+                            text: '<div style="text-align:justify;">¿ Desea eliminar el administrador  ['+dataRow.usuario+'] ?</div>',
+                            modal : true,
+                            buttons: [
+                                {addClass: 'uk-button uk-button-danger', text: 'ACEPTAR', onClick: function($noty) {
+                                    $noty.close();
+                                    noty({layout:'center',text:'Eliminado, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                                $.ajax({
+                                    url: Routing.generate('administrador_delete'),
+                                    data:{ 'id': dataRow.id,'nombre':dataRow.usuario },
+                                    method:'POST',
+                                    success: function(data) {
+                                         $.noty.closeAll();
+                                         $("#dialog").dialog('close');
+                                         if(data.respuesta==1){
+                                            
+                                            
+                                            reloadGrid();
+                                            AlertaPersonalizable('El registro se elimino correctamente',850,'information');   
+                                         } 
+                                         if(data.respuesta==3){
+                                            AlertaPersonalizable('No es posible eliminar el administrador ya que tiene historial en el sistema.',2000,'warning');   
+                                         } 
+                                    },
+                                    error: function() {
+                                         $.noty.closeAll();
+                                          MensajeConfirmacionError('Se produjo un error al realizar la acción. Porfavor recargue la página e intente de nuevo.');
+                                    }
+                                });                               
+                                }},
+                                {addClass: 'uk-button', text: 'CANCELAR', onClick: function($noty) {
+                                    $noty.close();
+                                }}
+                            ],
+                            type : 'confirm',
+                            animation: {
+                                open: 'animated bounceInLeft', // Animate.css class names
+                                close: 'animated bounceOutLeft', // Animate.css class names
+                                easing: 'swing', // unavailable - no need
+                                speed: 500 // unavailable - no need
+                            }
+                          });
+                    }else{
+                        AlertaPersonalizable('Porfavor seleccione la fila a eliminar.',900,'warning');   
+                    }
+                   
+                    
+                }}); 
+            {% endif %}  
+
+		$("#dialog").dialog({autoOpen:false,height:$(document).height()-20,width:550,modal:true});
+    });
+    function reloadGrid(){jQuery("#grilla").trigger("reloadGrid");}
+</script>

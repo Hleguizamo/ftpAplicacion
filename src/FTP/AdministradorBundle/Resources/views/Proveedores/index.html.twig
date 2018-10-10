@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Proveedores list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Proveedor</th>
+                <th>Codigoproveedor</th>
+                <th>Nitproveedor</th>
+                <th>Carpetatransferencista</th>
+                <th>Carpetaconvenios</th>
+                <th>Estadotransferencia</th>
+                <th>Estadoconvenios</th>
+                <th>Encargadoproveedor</th>
+                <th>Emailencargado</th>
+                <th>Estado</th>
+                <th>Ultimospedidos</th>
+                <th>Cantidad</th>
+                <th>Ultcarguetransferencista</th>
+                <th>Ultcargueconvenios</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('proveedores_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.proveedor }}</td>
+                <td>{{ entity.codigoProveedor }}</td>
+                <td>{{ entity.nitProveedor }}</td>
+                <td>{{ entity.carpetaTransferencista }}</td>
+                <td>{{ entity.carpetaConvenios }}</td>
+                <td>{{ entity.estadoTransferencia }}</td>
+                <td>{{ entity.estadoConvenios }}</td>
+                <td>{{ entity.encargadoProveedor }}</td>
+                <td>{{ entity.emailEncargado }}</td>
+                <td>{{ entity.estado }}</td>
+                <td>{% if entity.ultimosPedidos %}{{ entity.ultimosPedidos|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.cantidad }}</td>
+                <td>{% if entity.ultCargueTransferencista %}{{ entity.ultCargueTransferencista|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.ultCargueConvenios %}{{ entity.ultCargueConvenios|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('proveedores_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('proveedores_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('proveedores_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

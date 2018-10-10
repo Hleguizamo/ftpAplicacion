@@ -1,0 +1,58 @@
+<script type="text/javascript">
+    datePick = function(elem) {
+            jQuery(elem).datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                lang: 'es',
+                yearRange: "1900:2022"
+            });
+        };
+    jQuery().ready(function (){
+        jQuery("#Grilla").jqGrid({
+            url: '{{ path('log_proveedores_xml') }}',
+            datatype: "xml",
+            colNames:['id','ARCHIVO','TRANSACCIONES', 'DROGUERÍA','ESTADO','COD PEDIDO','TOTAL PEDI','NUM PRODUCTOS','F. CONFIRMADO','PROVEEDOR'],
+            colModel:[
+                {name:'id',index:'lp.id', hidden: true},
+                {name:'archivo', index:'lp.nombreArchivo' },
+                {name:'transacciones', index:'lp.transacciones', searchtype: "number",hidden: true},
+                {name:'drogueria', index:'lp.codigoDrogueria',align:'center' ,sorttype: 'integer',search: true, searchtype: "number"},
+                {name:'estado', index:'lp.estado',search: false },
+                {name:'pedido', index:'lp.codigoPedido' },
+                {name:'totalPedido', index:'lp.totalPedido',sorttype: 'integer',search: true, searchtype: "number"},
+                {name:'numProductos', index:'lp.numProductos',sorttype: 'integer',search: true, searchtype: "number"},
+                {name:'tiempo', index:'lp.fechaConfirmado',sorttype: 'integer',search: true, searchtype: "number", searchoptions: {dataInit: datePick, attr: {title: 'Seleccione la fecha'}}},
+                {name:'proveedor', index:'p.proveedor' }
+            ],
+            rowNum: 100,
+            autowidth: true,
+            rowList: [100,200,300,400],
+            pager: '#pGrilla',
+            sortname: 'lp.fechaConfirmado',
+            viewrecords: true,
+            sortorder: "DESC",
+            height:($(document).height()-150)
+        }).navGrid('#pGrilla',{edit:false, add:false, del:false, search: true},{},{},{},{ multipleSearch:true });
+        {% if permisos.log_admin.permiso != 0 %} 
+            jQuery("#Grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' <i class="uk-icon-file-o"></i> Exportar',title:'Exportar logs proveedores a csv', buttonicon:'none', onClickButton:function(){ 
+                
+                    window.open("{{path('log_proveedores_exportar')}}?"+consultaActual());
+         
+            }});
+        {% endif %}
+        $("#dialog").dialog({autoOpen:false,height:$(document).height()-20,width:550,modal:true});
+        
+        });
+    function reloadGrid(){jQuery("#Grilla").trigger("reloadGrid");}
+    function consultaActual(){
+        var pd=$("#Grilla").getGridParam("postData");
+        var r="";
+        var control=0;
+        $.each(pd,function(i){
+            if(control>0)r+="&";r+=i+"="+pd[i];control++;
+        });
+        return r;
+    }
+    
+</script>
+

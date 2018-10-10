@@ -1,0 +1,221 @@
+<script type="text/javascript">
+    datePick = function(elem) {
+        jQuery(elem).datetimepicker({
+            changeMonth: true,
+            changeYear: true,
+            lang: 'es',
+            yearRange: "1900:2022"
+        });
+    };
+    jQuery().ready(function (){
+            $('.load').hide();
+            $("#grilla").jqGrid({
+                url:'{{path("proveedor_xml")}}',
+                datatype: "xml",
+                colModel: [
+                    { label: 'ID', name:'id',index:'t.id', hidden: true},
+                    { label: 'PROVEEDOR', name: 'proveedor', key: true, width:120,index:'t.proveedor' },
+                    { label: 'CÓD ', name: 'codigoProveedor', width:60 ,index:'t.codigoProveedor'},
+                    { label: 'NIT', name: 'nit',index:'t.nitProveedor' , width:125 },
+                    { label: 'EST TRANSF.', name: 'estadoTransferencia',align:'center',index:'t.estadoTransferencia', width:70},
+                    { label: 'EST CONV.', name: 'estadoConvenios',align:'center',index:'t.estadoConvenios', width:70},
+                    { label: 'ENCARGADO', name: 'encargadoProveedor',align:'center',index:'t.encargadoProveedor'},
+                    { label: 'CORREO', name: 'email', width: 75,align:'center',index:'t.email'},
+                    { label:'ESTADO', name: 'estado', width: 60,index:'a.estado' },
+                    { label:'ÚLT PEDIDOS', name: 'ultimoIngreso',index:'t.ultimosPedidos', search: true, searchtype: "number", searchoptions: {dataInit: datePick, attr: {title: 'Seleccione la fecha'}}},
+                    { label: 'CANT', name: 'canditad', width: 40,align:'center',index:'t.cantidad'},
+                    
+                    { label:'ÚLT CONVENIOS', name: 'ultCargueTransferencista',index:'t.ultimoConvenios', search: true, searchtype: "number", searchoptions: {dataInit: datePick, attr: {title: 'Seleccione la fecha'}}},
+                    { label:'ÚLT TRANSFEREN', name: 'ultCargueConvenios',index:'t.ultimosPedidos', search: true, searchtype: "number", searchoptions: {dataInit: datePick, attr: {title: 'Seleccione la fecha'}}},
+                    { label:'CARP. TRANSF', name: 'estado',index:'t.carpetaTransferencista' },
+                    { label:'CARP. CONV', name: 'estado',index:'t.carpetaConvenios' },
+                ],
+                    rowNum: 100,
+                    autowidth: true,
+                    rowList: [100,200,300,400],
+                    pager: '#pGrilla',
+                    sortname: 't.ultimosPedidos',
+                    viewrecords:true,
+                    sortorder: "DESC",
+                    height:($(document).height()-150)
+                ,ondblClickRow: function(ids) { 
+                {% if permisos.proveedor.permiso == 1  or permisos.proveedor.permiso ==2 %}  
+                    noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                    dataRow = jQuery(this).getRowData(ids); 
+                    $( "#dialog" ).load( Routing.generate('proveedor_edit', { id: dataRow.id}), function() {
+                    $('#dialog').dialog('option',{'title':'Editar Proveedor',width:$(document).width()-80,height:$(document).height()-150 } );
+                    $("#dialog").dialog('open'); 
+                        $("#dialog").dialog('open');
+                        $.noty.closeAll();
+                    });
+                {% endif %}
+                },
+                loadComplete:function(){
+                    $('.load').hide();
+                    // 1 estado de transferencias.
+                    // 2 estado de convenios.
+
+                    //modificar estado transferencias
+                    $('.chkTransferencias').click(function(){
+                        $('#trf'+$(this).val()).show();
+                        estado=($(this).is(':checked'))?1:0;
+                        actualizarEstado(estado,1,$(this).val()); 
+                    });
+
+                    //modificar estado convenios
+                    $('.chkConvenios').click(function(){
+                        $('#con'+$(this).val()).show();
+                        estado=($(this).is(':checked'))?1:0;
+                        actualizarEstado(estado,2,$(this).val()); 
+                    });
+
+                    function actualizarEstado(estado,campo,codigoProveedor){
+                        $.ajax({
+                            url:'{{path('proveedor_actualizar_campo')}}',
+                            method:'POST',
+                            data:{'estado':estado,'campo':campo,'codigoProveedor':codigoProveedor},
+                            success:function(){
+                                if(campo==1){
+                                    $('#trf'+codigoProveedor).hide();
+                                }else{
+                                    $('#con'+codigoProveedor).hide();
+                                }
+                            },error:function(){
+
+                            }
+                        });
+                    }
+                }
+            });
+            // activate the build in search with multiple option
+            $('#grilla').navGrid("#pGrilla", {                
+                search: true, // show search button on the toolbar
+                add: false,
+                edit: false,
+                del: false,
+                refresh: true
+            },
+            {}, // edit options
+            {}, // add options
+            {}, // delete options
+            { multipleSearch: true } // search options - define multiple search
+            );
+            {% if permisos.proveedor.permiso == 1 %}   
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' &nbsp;<i class="uk-icon-plus-square-o"></i> &nbsp;',title:'Nuevo Proveedor.', buttonicon:'none', onClickButton:function(){ 
+                    noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                    $('#dialog').dialog('option',{'title':'Nuevo Proveedor',width:$(document).width()-70,height:$(document).height()-100  } );
+                        $( "#dialog" ).load( Routing.generate('proveedor_new'), function() {
+                            $("#dialog").dialog('open');
+                            $.noty.closeAll();
+                        });
+                    
+                }});
+            {% endif %}
+            {% if permisos.proveedor.permiso == 1  or permisos.proveedor.permiso ==2 %}   
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' &nbsp;<i class="uk-icon-pencil"></i> &nbsp;',title:'Editar Proveedor', buttonicon:'none', onClickButton:function(){ 
+                    var gsr = jQuery("#grilla").jqGrid('getGridParam','selrow'); 
+                    if(gsr){
+                        noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                        dataRow = jQuery("#grilla").getRowData(gsr);
+                        $( "#dialog" ).load( Routing.generate('proveedor_edit', {id: dataRow.id}), function() {
+                            $('#dialog').dialog('option',{'title':'Editar Proveedor',width:$(document).width()-80,height:$(document).height()-100 } );
+                            $("#dialog").dialog('open');
+                            $.noty.closeAll();
+                        });
+                    } 
+                    else { 
+                        AlertaPersonalizable('Porfavor seleccione la fila a editar.',900,'warning'); 
+                    } 
+                }});
+            {% endif %}
+            {% if permisos.proveedor.permiso == 1  or permisos.proveedor.permiso ==2 %}   
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' &nbsp;<i class="uk-icon-exclamation"></i><i class="uk-icon-archive"></i> &nbsp;',title:'Operación para todos los proveedores', buttonicon:'none', onClickButton:function(){ 
+
+                        noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                        $( "#dialog" ).load( Routing.generate('proveedores_form'), function() {
+                            $('#dialog').dialog('option',{'title':'Generar pedidos ',width:$(document).width()-80,height:$(document).height()-100 } );
+                            $("#dialog").dialog('open');
+                            $.noty.closeAll();
+                        });
+  
+                }});
+            {% endif %}
+            {% if permisos.proveedor.permiso == 1  or permisos.proveedor.permiso ==2 %}   
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' &nbsp;</i><i class="uk-icon-archive"></i> &nbsp;',title:'Operación para el proveedor seleccionado.', buttonicon:'none', onClickButton:function(){ 
+                    var gsr = jQuery("#grilla").jqGrid('getGridParam','selrow'); 
+                    if(gsr){
+                        dataRow = jQuery("#grilla").getRowData(gsr);
+
+                        noty({layout:'center',text:'Cargando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                        $( "#dialog" ).load( Routing.generate('proveedor_form',{'id':dataRow.nit}), function() {
+                            $('#dialog').dialog('option',{'title':'Generar pedidos : '+dataRow.proveedor,width:$(document).width()-80,height:$(document).height()-100 } );
+                            $("#dialog").dialog('open');
+                            $.noty.closeAll();
+                        });
+                    } 
+                    else { 
+                        AlertaPersonalizable('Porfavor seleccione un proveedor.',900,'warning'); 
+                    }
+                }});
+            {% endif %}
+
+            {% if permisos.proveedor.permiso == 1  %}
+                jQuery("#grilla").jqGrid('navButtonAdd','#pGrilla',{caption:'&nbsp; <i class="uk-icon-trash"></i> &nbsp;', buttonicon:'none',title:'Eliminar Proveedor', onClickButton:function(){ 
+                    var gsr = jQuery("#grilla").jqGrid('getGridParam','selrow'); 
+                    if(gsr){
+                        dataRow = jQuery("#grilla").getRowData(gsr);
+                        noty({
+                            layout : 'center',
+                            text: '<div style="text-align:justify;">¿ Desea eliminar el proveedor  ['+dataRow.proveedor+'] ?</div>',
+                            modal : true,
+                            buttons: [
+                                {addClass: 'uk-button uk-button-danger', text: 'ACEPTAR', onClick: function($noty) {
+                                    $noty.close();
+                                    noty({layout:'center',text:'Eliminado, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                                $.ajax({
+                                    url: Routing.generate('proveedor_delete'),
+                                    data:{ 'id': dataRow.id,'proveedor':dataRow.proveedor },
+                                    method:'POST',
+                                    success: function(data) {
+                                         $.noty.closeAll();
+                                         $("#dialog").dialog('close');
+                                         if(data.respuesta==1){
+                                            reloadGrid();
+                                            AlertaPersonalizable('El registro se elimino correctamente',850,'information');   
+                                         } 
+                                         /*
+                                         if(data.respuesta==3){
+                                            AlertaPersonalizable('No es posible eliminar el administrador ya que tiene historial en el sistema.',2000,'warning');   
+                                         } 
+                                         */
+                                    },
+                                    error: function() {
+                                         $.noty.closeAll();
+                                          MensajeConfirmacionError('Se produjo un error al realizar la acción. Porfavor recargue la página e intente de nuevo.');
+                                    }
+                                });                               
+                                }},
+                                {addClass: 'uk-button', text: 'CANCELAR', onClick: function($noty) {
+                                    $noty.close();
+                                }}
+                            ],
+                            type : 'confirm',
+                            animation: {
+                                open: 'animated bounceInLeft', // Animate.css class names
+                                close: 'animated bounceOutLeft', // Animate.css class names
+                                easing: 'swing', // unavailable - no need
+                                speed: 500 // unavailable - no need
+                            }
+                          });
+                    }else{
+                        AlertaPersonalizable('Porfavor seleccione la fila a eliminar.',900,'warning');   
+                    }
+                   
+                    
+                }}); 
+            {% endif %}  
+
+        $("#dialog").dialog({autoOpen:false,height:$(document).height()-20,width:550,modal:true});
+    });
+    function reloadGrid(){jQuery("#grilla").trigger("reloadGrid");}
+</script>

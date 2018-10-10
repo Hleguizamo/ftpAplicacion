@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>AceptacionContrato list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigodrogeria</th>
+                <th>Nitasociado</th>
+                <th>Estado</th>
+                <th>Clave</th>
+                <th>Tiempo</th>
+                <th>Pruebas</th>
+                <th>Ultimoacceso</th>
+                <th>Cambioclave</th>
+                <th>Clave1</th>
+                <th>Clave2</th>
+                <th>Ultimaclave</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('aceptacioncontrato_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.codigoDrogeria }}</td>
+                <td>{{ entity.nitAsociado }}</td>
+                <td>{{ entity.estado }}</td>
+                <td>{{ entity.clave }}</td>
+                <td>{% if entity.tiempo %}{{ entity.tiempo|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.pruebas }}</td>
+                <td>{% if entity.ultimoAcceso %}{{ entity.ultimoAcceso|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.cambioClave %}{{ entity.cambioClave|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.clave1 }}</td>
+                <td>{{ entity.clave2 }}</td>
+                <td>{{ entity.ultimaClave }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('aceptacioncontrato_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('aceptacioncontrato_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('aceptacioncontrato_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

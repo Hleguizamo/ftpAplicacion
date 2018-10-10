@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=8; IE=9" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}FTP{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('css/uikit/uikit.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/uikit/components/tooltip.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/uikit/uikit.almost-flat.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/uikit/uikit.gradient.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/noty/buttons.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/noty/animate.css') }}" rel="stylesheet">
+        {% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery-ui/jquery-ui.min.js') }}"></script>
+            <script src="{{ asset('js/uikit/uikit.min.js') }}"></script>
+            <script src="{{ asset('js/uikit/components/tooltip.js') }}"></script>
+            <script src="{{ asset('js/noty/jquery.noty.js') }}"></script>
+            <script src="{{ asset('js/noty/themes/default.js') }}"></script>
+            <script src="{{ asset('js/noty/layouts/center.js') }}"></script>
+            <script src="{{ asset('js/noty/layouts/top.js') }}"></script>
+            <script src="{{ asset('js/globales.js') }}"></script>
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('copi.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

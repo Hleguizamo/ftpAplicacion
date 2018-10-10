@@ -1,0 +1,6 @@
+CONSECUTIVO;CODIGO;PRODUCTO;CANTIDAD FINAL;PRECIO;BONIFICACION;# CAJAS;# REMISION;# FACTURA;
+{% for pedido in pedidos %}
+{% if cliente['centro'][pedido.codigoDrogueria] is defined %}
+{{pedido.consecutivo}};{{pedido.productoCodigo}};{{pedido.productoDescripcion}};{{pedido.cantidadFinal}};{{pedido.productoPrecio}};{{pedido.bonificacion}};{{pedido.numeroCajas}};{{pedido.remision}};{{pedido.numeroFactura}};
+{% endif %}
+{% endfor %}

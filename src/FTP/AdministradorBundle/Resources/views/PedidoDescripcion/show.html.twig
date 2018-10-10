@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>PedidoDescripcion</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Pdtoid</th>
+                <td>{{ entity.pdtoId }}</td>
+            </tr>
+            <tr>
+                <th>Drogueriaid</th>
+                <td>{{ entity.drogueriaId }}</td>
+            </tr>
+            <tr>
+                <th>Cantidadpedida</th>
+                <td>{{ entity.cantidadPedida }}</td>
+            </tr>
+            <tr>
+                <th>Productocodigo</th>
+                <td>{{ entity.productoCodigo }}</td>
+            </tr>
+            <tr>
+                <th>Productocodigobarras</th>
+                <td>{{ entity.productoCodigoBarras }}</td>
+            </tr>
+            <tr>
+                <th>Productodescripcion</th>
+                <td>{{ entity.productoDescripcion }}</td>
+            </tr>
+            <tr>
+                <th>Productopresentacion</th>
+                <td>{{ entity.productoPresentacion }}</td>
+            </tr>
+            <tr>
+                <th>Productoprecio</th>
+                <td>{{ entity.productoPrecio }}</td>
+            </tr>
+            <tr>
+                <th>Productomarcado</th>
+                <td>{{ entity.productoMarcado }}</td>
+            </tr>
+            <tr>
+                <th>Productoreal</th>
+                <td>{{ entity.productoReal }}</td>
+            </tr>
+            <tr>
+                <th>Productoiva</th>
+                <td>{{ entity.productoIva }}</td>
+            </tr>
+            <tr>
+                <th>Productodescuento</th>
+                <td>{{ entity.productoDescuento }}</td>
+            </tr>
+            <tr>
+                <th>Productofecha</th>
+                <td>{{ entity.productoFecha|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Productoestado</th>
+                <td>{{ entity.productoEstado }}</td>
+            </tr>
+            <tr>
+                <th>Cantidadfinal</th>
+                <td>{{ entity.cantidadFinal }}</td>
+            </tr>
+            <tr>
+                <th>Productofoto</th>
+                <td>{{ entity.productoFoto }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('pedidodescripcion') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('pedidodescripcion_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

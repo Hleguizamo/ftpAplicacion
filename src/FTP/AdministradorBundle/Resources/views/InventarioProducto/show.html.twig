@@ -1,0 +1,96 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>InventarioProducto</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ entity.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Codigobarras</th>
+                <td>{{ entity.codigoBarras }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ entity.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Presentacion</th>
+                <td>{{ entity.presentacion }}</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>{{ entity.precio }}</td>
+            </tr>
+            <tr>
+                <th>Marcado</th>
+                <td>{{ entity.marcado }}</td>
+            </tr>
+            <tr>
+                <th>Precioreal</th>
+                <td>{{ entity.precioReal }}</td>
+            </tr>
+            <tr>
+                <th>Iva</th>
+                <td>{{ entity.iva }}</td>
+            </tr>
+            <tr>
+                <th>Foto</th>
+                <td>{{ entity.foto }}</td>
+            </tr>
+            <tr>
+                <th>Descuento</th>
+                <td>{{ entity.descuento }}</td>
+            </tr>
+            <tr>
+                <th>Fechacreado</th>
+                <td>{{ entity.fechaCreado|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizado</th>
+                <td>{{ entity.fechaActualizado|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Edicion</th>
+                <td>{{ entity.edicion }}</td>
+            </tr>
+            <tr>
+                <th>Fototemporal</th>
+                <td>{{ entity.fotoTemporal }}</td>
+            </tr>
+            <tr>
+                <th>Descuentotemporal</th>
+                <td>{{ entity.descuentoTemporal }}</td>
+            </tr>
+            <tr>
+                <th>Iniciodescuento</th>
+                <td>{{ entity.inicioDescuento|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Findescuento</th>
+                <td>{{ entity.finDescuento|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('inventarioproducto') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('inventarioproducto_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

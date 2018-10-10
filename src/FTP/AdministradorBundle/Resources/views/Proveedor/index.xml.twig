@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rows>
+    <page>{{ pagina }}</page>
+    <total>{{ maxPagina }}</total>
+    <records>{{ numRegistros }}</records>
+    {% for entity in entities %}
+    <row id="{{ entity.id }}">
+        <cell>{{ entity.id }}</cell>
+        <cell><![CDATA[{{ entity.proveedor }}]]></cell>
+        <cell><![CDATA[{{ entity.codigoProveedor  }}]]></cell>
+        <cell><![CDATA[{{ entity.nitProveedor }}]]></cell>
+        <cell><![CDATA[ <input type='checkbox' class='chkTransferencias' value='{{entity.codigoProveedor }}' {% if entity.estadoTransferencia %}checked{% endif %} > <i class="uk-icon-refresh uk-icon-spin load" id='trf{{entity.codigoProveedor }}'></i> ]]></cell>
+        <cell><![CDATA[ <input type='checkbox' class='chkConvenios' value='{{entity.codigoProveedor }}' {% if entity.estadoConvenios %}checked{% endif %} ><i class="uk-icon-refresh uk-icon-spin load" id='con{{entity.codigoProveedor }}'></i> ]]></cell> 
+        <cell><![CDATA[{{ entity.encargadoProveedor }}]]></cell>
+        <cell><![CDATA[{{ entity.emailEncargado }}]]></cell>
+        <cell><![CDATA[{% if entity.estado %}Activo{% else %}Inactivo{% endif %}]]></cell>
+        <cell><![CDATA[ {{ entity.ultimosPedidos is empty ? "" : entity.ultimosPedidos | date('Y-m-d H:i:s') }}]]></cell> 
+        <cell><![CDATA[ {{ entity.cantidad }}]]></cell>  
+        <cell><![CDATA[ {{ entity.ultCargueConvenios is empty ? "" : entity.ultCargueConvenios | date('Y-m-d H:i:s') }}]]></cell> 
+        <cell><![CDATA[ {{ entity.ultCargueTransferencista is empty ? "" : entity.ultCargueTransferencista | date('Y-m-d H:i:s') }}]]></cell> 
+        <cell><![CDATA[{{ entity.carpetaTransferencista }}]]></cell>
+        <cell><![CDATA[{{ entity.carpetaConvenios }}]]></cell>
+    </row>
+    {% endfor %}
+</rows>

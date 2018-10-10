@@ -1,0 +1,46 @@
+<script type="text/javascript">
+	$().ready(function(){
+		$('#frmCofiguracion').submit(function(){
+
+			
+
+			if(validarVacios()){
+				$.ajax({
+					url:'{{path('configuracion_update')}}',
+					data:$('#frmCofiguracion').serialize(),
+					method:'POST',
+					beforeSend:function(){
+						noty({layout:'center',text:'Procesando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+					},
+					success:function(data){
+						if(data.respuesta==2){
+							AlertaPersonalizable('Registro creado.',1800,'information');
+							$('#controlHd').val(data.control);
+							$('#idRegistro').val(data.id);
+							$.noty.closeAll();
+						}if(data.respuesta==1){
+							AlertaPersonalizable('Datos actualizados.',1800,'information');
+							$('#controlHd').val(data.control);
+							$.noty.closeAll();
+						}
+					},error:function(){
+
+					}
+				});
+			}
+			return false;
+		});
+	});
+	//validar campos del formulario
+	function validarVacios(){
+		//campos vacios.
+		if($('input[name|="clave"]').val()=='' ||
+		 $('input[name|="usuarios"]').val() =='' || 
+		 $('input[name|="host"]').val() == ''){
+
+			AlertaPersonalizable('Porfavor complete todos los campos.',1800,'warning');
+            return false;
+		}
+		return true;
+	}
+</script>

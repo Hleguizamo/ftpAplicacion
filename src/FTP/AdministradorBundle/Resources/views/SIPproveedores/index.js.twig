@@ -1,0 +1,76 @@
+<script type="text/javascript">
+    datePick = function(elem) {
+            jQuery(elem).datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                lang: 'es',
+                yearRange: "1900:2022"
+            });
+        };
+    jQuery().ready(function (){
+        jQuery("#Grilla").jqGrid({
+            url: '{{ path('log_sip_proveedores_xml') }}',
+            datatype: "xml",
+            colNames:['id','FECHA','PROVEEDOR'],
+            colModel:[
+                {name:'id',index:'lsp.id', hidden: true},
+                {name:'fecha', index:'lsp.fecha',sorttype: 'integer',search: true, searchtype: "number", searchoptions: {dataInit: datePick, attr: {title: 'Seleccione la fecha'}}},
+                {name:'proveedor', index:'lsp.proveedor' }
+            ],
+            rowNum: 100,
+            autowidth: true,
+            rowList: [100,200,300,400],
+            pager: '#pGrilla',
+            sortname: 'lsp.fecha',
+            viewrecords: true,
+            sortorder: "DESC",
+            height:($(document).height()-150)
+        }).navGrid('#pGrilla',{edit:false, add:false, del:false, search: true},{},{},{},{ multipleSearch:true });
+        {% if permisos.log_sip_proveedores.permiso != 0 %} 
+           /* jQuery("#Grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' <i class="uk-icon-file-o"></i> Exportar',title:'Exportar logs administradores a csv', buttonicon:'none', onClickButton:function(){ 
+                
+                    window.open("{#{path('log_admin_exportar')}#}?"+consultaActual());
+         
+            }});*/
+        {% endif %}
+
+        $("#Grilla").jqGrid('navButtonAdd','#pGrilla',{caption:' &nbsp;<i class="uk-icon-eye"></i> &nbsp;',title:'Detalle log', buttonicon:'none', onClickButton:function(){ 
+
+            var gsr = $("#Grilla").jqGrid('getGridParam','selrow'); 
+
+            if(gsr){
+
+                noty({layout:'center',text:'Cargando, por favor espere...<br><center>Detalle log<i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+
+                dataRow = $("#Grilla").getRowData(gsr);
+
+                $( "#dialog" ).load( Routing.generate('log_sip_proveedores_detalle', {id: dataRow.id}), function() {
+
+                    $('#dialog').dialog('option',{'title':'Log Proveedor',width:$(document).width()-80,height:$(document).height()-100 } );
+                    $("#dialog").dialog('open');
+                    $.noty.closeAll();
+
+                });
+            } 
+            else { 
+                AlertaPersonalizable('Por favor seleccione una fila.',900,'warning'); 
+            } 
+        }});
+
+
+        $("#dialog").dialog({autoOpen:false,height:$(document).height()-20,width:550,modal:true});
+        
+        });
+    function reloadGrid(){jQuery("#Grilla").trigger("reloadGrid");}
+    function consultaActual(){
+        var pd=$("#Grilla").getGridParam("postData");
+        var r="";
+        var control=0;
+        $.each(pd,function(i){
+            if(control>0)r+="&";r+=i+"="+pd[i];control++;
+        });
+        return r;
+    }
+    
+</script>
+

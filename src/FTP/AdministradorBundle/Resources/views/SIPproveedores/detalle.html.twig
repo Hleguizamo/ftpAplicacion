@@ -1,0 +1,195 @@
+<div>
+
+	<span class="uk-text-bold uk-text-danger" >Proveedor: &nbsp;</span>{{proveedor.proveedor}}<br>
+	<span class="uk-text-bold uk-text-danger" >Fecha: &nbsp;</span>{{proveedor.fecha | date('Y-m-d H:i:s') }}<br>
+
+	{% if archivos is empty %}
+	  <div width ="100%">
+	  	<br>
+	  	<br>
+		<span class="uk-text-primary uk-text-primary uk-text-center">No se encontraron archivos para procesar.</span>
+		<br>
+		<br>
+	  </div>
+	{% else %}
+
+		{% for archivo in archivos %}
+
+			<div width="100%">
+
+				<table class="uk-table">
+
+					<thead>
+
+						<tr>
+
+							<td class="uk-text-bold uk-text-danger uk-text-center" >ARCHIVO</td>
+							<td class="uk-text-bold uk-text-danger uk-text-center" >PESO</td>
+							<td class="uk-text-bold uk-text-danger uk-text-center" >FECHA PROCESADO</td>
+
+						</tr>
+
+					</thead>
+					<tbody>
+
+						<tr>
+
+							<td class="uk-text-bold uk-text-center" > {{ archivo.archivo }}</td>
+							<td class="uk-text-bold uk-text-center" >{{ archivo.pesoMb }}</td>
+							<td class="uk-text-bold uk-text-center" >{{ archivo.fechaProcesado | date('Y-m-d H:i:s') }}</td>
+
+						</tr>
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+			<div width="100%"><!-- estructura -->
+
+				{% if estructura[ archivo.id ] is defined  %}
+					<table class="uk-table">
+
+						<thead>
+
+							<tr>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >ESTRUCTURA</td>
+							</tr>
+
+						</thead>
+						<tbody>
+
+							{% for fila in estructura[ archivo.id ] %}
+
+								<tr>
+
+									<td> {{ fila.contenido }} </td>
+
+								</tr>
+
+							{% endfor %}
+
+						</tbody>
+
+					</table>
+				{% endif %}
+
+			</div><!-- end estructura -->
+
+			<div width="100%"><!--  prodcutos -->
+
+				{% if productos[ archivo.id ] is defined  %}
+					<table class="uk-table">
+
+						<thead>
+
+							<tr>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >PRODCUTOS INSERTADOS</td>
+							</tr>
+
+						</thead>
+						<tbody>
+
+							{% for fila in productos[ archivo.id ] %}
+
+								<tr>
+
+									<td> {{ fila.contenido }} </td>
+
+								</tr>
+
+							{% endfor %}
+
+						</tbody>
+
+					</table>
+				{% endif %}
+
+			</div><!-- END prodcutos -->
+
+			<div width="100%"><!--  PEDIDOS -->
+
+				{% if pedidos[ archivo.id ] is defined  %}
+					<table class="uk-table">
+
+						<thead>
+
+							<tr>
+								<td colspan="7" class="uk-text-bold uk-text-danger uk-text-center" >PEDIDOS CREADOS</td>
+							</tr>
+
+						</thead>
+						<tbody>
+
+							<tr>
+
+								<td class="uk-text-bold uk-text-danger uk-text-center" >Asociado</td>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >Estado</td>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >Pedido</td>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >$Total</td>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >Q</td>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >Confirmado</td>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >Proveedor</td>
+
+							</tr>
+
+							{% for fila in pedidos[ archivo.id ] %}
+
+								<tr>
+
+									<td> {{ fila.codigoDrogueria }} </td>
+									<td> {{ fila.estado }} </td>
+									<td> {{ fila.codigoPedido }} </td>
+									<td> {{ fila.totalPedido }} </td>
+									<td> {{ fila.numProductos }} </td>
+									<td> {{ fila.fechaConfirmado | date('Y-m-d H:i:s') }} </td>
+									<td> {{ fila.proveedorCodigoCopi }} </td>
+
+								</tr>
+
+							{% endfor %}
+
+						</tbody>
+
+					</table>
+				{% endif %}
+
+			</div><!-- END PEDIDOS -->
+
+			<div width="100%"><!--  NOVEDADES -->
+
+				{% if novedades[ archivo.id ] is defined  %}
+					<table class="uk-table">
+
+						<thead>
+
+							<tr>
+								<td class="uk-text-bold uk-text-danger uk-text-center" >NOVEDADES</td>
+							</tr>
+
+						</thead>
+						<tbody>
+
+							{% for fila in novedades[ archivo.id ] %}
+
+								<tr>
+
+									<td> {{ fila.novedad }} </td>
+
+								</tr>
+
+							{% endfor %}
+
+						</tbody>
+
+					</table>
+				{% endif %}
+
+			</div><!-- END NOVEDADES -->
+
+		{% endfor %}
+
+	{% endif %}
+
+<div>

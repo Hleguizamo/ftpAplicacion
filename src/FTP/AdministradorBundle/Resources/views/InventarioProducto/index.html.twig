@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>InventarioProducto list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Codigobarras</th>
+                <th>Descripcion</th>
+                <th>Presentacion</th>
+                <th>Precio</th>
+                <th>Marcado</th>
+                <th>Precioreal</th>
+                <th>Iva</th>
+                <th>Foto</th>
+                <th>Descuento</th>
+                <th>Fechacreado</th>
+                <th>Fechaactualizado</th>
+                <th>Edicion</th>
+                <th>Fototemporal</th>
+                <th>Descuentotemporal</th>
+                <th>Iniciodescuento</th>
+                <th>Findescuento</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('inventarioproducto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.codigo }}</td>
+                <td>{{ entity.codigoBarras }}</td>
+                <td>{{ entity.descripcion }}</td>
+                <td>{{ entity.presentacion }}</td>
+                <td>{{ entity.precio }}</td>
+                <td>{{ entity.marcado }}</td>
+                <td>{{ entity.precioReal }}</td>
+                <td>{{ entity.iva }}</td>
+                <td>{{ entity.foto }}</td>
+                <td>{{ entity.descuento }}</td>
+                <td>{% if entity.fechaCreado %}{{ entity.fechaCreado|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.fechaActualizado %}{{ entity.fechaActualizado|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.edicion }}</td>
+                <td>{{ entity.fotoTemporal }}</td>
+                <td>{{ entity.descuentoTemporal }}</td>
+                <td>{% if entity.inicioDescuento %}{{ entity.inicioDescuento|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.finDescuento %}{{ entity.finDescuento|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('inventarioproducto_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('inventarioproducto_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('inventarioproducto_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

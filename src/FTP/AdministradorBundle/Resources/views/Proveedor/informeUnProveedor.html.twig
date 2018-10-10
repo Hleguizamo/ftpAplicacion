@@ -1,0 +1,258 @@
+	{% if informes %}
+		{% for informe in informes %}
+
+	        {% if informe.error is defined %}
+				<span class='uk-text-warning'>{{informe.error}} No fue posible iniciar la operación.</span>
+			{% else %}
+
+			{% if informe.archivo %}
+				<table class='uk-table'>
+					<tr>
+						<td><strong>Archivo : </strong>{{informe.archivo.name}}</td>
+					</tr>
+					<tr>
+						<td><strong>Tamaño : </strong>{{informe.archivo.size}}</td>
+					</tr>
+				</table>
+			{% endif %}
+
+			{% set cont = 1 %}
+			<h3>Total de pedidos insertados con éxito :  {{informe.pedidosTotales}} </h3>
+			{% if informe.pedidosTotales is not empty %}
+				{% for key,resultado in informe %}
+					{% if resultado.insertados is defined %}
+						<table class='uk-table uk-margin-large-bottom' id='table{{key}}'>
+							<tr>
+								<td colspan=2>
+									<span class='uk-text-center uk-text-bold uk-text-primary'>Pedido número: {{cont}}</span>
+									{% set cont=cont+1 %}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Código : </strong>{{key}}
+								</td>
+								<td>
+									<strong>Droguería : </strong>{% if resultado.drogueria is defined %}{{resultado.drogueria}}{% endif %}
+								</td>
+							</tr>
+							<tr>
+								<td >
+									<strong>Pedido : </strong>{% if resultado.pedido is defined %}{{resultado.pedido}}{% endif %}
+								</td>
+								<td >
+									<strong>Total : $ </strong>{% if resultado.totalPedido is defined %}{{resultado.totalPedido | number_format(0, '', '.')  }}{% endif %}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Cant unit: </strong>{% if resultado.cantUnit is defined %}{{resultado.cantUnit}}{% endif %}
+								</td>
+								<td>
+									<strong>Tipo de productos : </strong>{% if resultado.canTotal is defined %}{{resultado.canTotal}}{% endif %}
+								</td>
+							</tr>
+							<!-- Productos insertados -->
+							<tr>
+								<td colspan='2' class='uk-text-center uk-text-bold' >
+									PRODUCTOS INSERTADOS
+								</td>
+							</tr>
+							<tr class='insertado{{key}}'>
+								<td colspan='2'>	
+									<ul>
+										{% for insertados in resultado.insertados %}			
+											<li>{{insertados}}</li>
+										{% endfor %}
+									</ul>	
+								</td>
+							</tr>
+							<!-- Productos no insertados -->
+						</table>
+					{% endif %}	
+					{% if resultado.noIsertados is defined %}	
+						<table class='uk-table'>	
+							<tr>
+								<td>
+									<strong>Código : </strong>{{key}}
+								</td>
+							</tr>
+							<tr>
+								<td colspan='2' class='uk-text-center uk-text-bold' >
+									PRODUCTOS NO INSERTADOS
+								</td>
+							</tr>
+							<tr class='noInsertado{{key}}'>
+								<td colspan='2' >
+									<ul>
+										{% for noIsertados in resultado.noIsertados %}			
+											<li>{{noIsertados}}</li>
+										{% endfor %}
+									</ul>	
+								</td>
+							</tr>		
+						</table>
+					{% endif %}	
+				{% endfor %}
+			{% else %}
+
+				<table class='uk-table uk-margin-large-bottom'>
+					{% for key,resultado in informe %}
+						<tr>
+							<td>
+								<strong>Código : </strong>{{key}}
+							</td>
+						</tr>
+						<!-- Productos no insertados -->
+						<tr>
+							<td colspan='2' class='uk-text-center uk-text-bold' >
+								PRODUCTOS NO INSERTADOS
+							</td>
+						</tr>
+						<tr class='noInsertado{{key}}'>
+							<td colspan='2' >
+								{% if resultado.noIsertados is defined %}
+									<ul>
+										{% for noIsertados in resultado.noIsertados %}			
+											<li>{{noIsertados}}</li>
+										{% endfor %}
+									</ul>	
+								{% else %}	
+									<span class='uk-text-success '>Ningun problema.</span>
+								{% endif %}	
+							</td>
+						</tr>	
+					{% endfor %}	
+					</table>
+			{% endif %}	
+			{% if informe.drogNoEncontradas is defined %}
+				<table class='uk-table'>
+					<tr>
+						<td colspan='2' class='uk-text-bold uk-text-danger uk-text-center'>
+							DROGUERÍAS NO ENCONTRADAS {{ informe.drogNoEncontradas |length}}
+						</td>
+					</tr>
+					<tr id='drogNoEncontradas'>
+						<td>
+							<ul>
+								{% for key,value in informe.drogNoEncontradas %}
+									<li>{{value}}</li>
+								{% endfor %}
+							</ul>
+						</td>
+					</tr>
+				</table>
+			{% endif %}
+			
+			<!-- Líneas no leidas. -->
+			{% if informe.noLeidas is defined %}
+				<table class='uk-table'>
+					<tr>
+						<td colspan='2' class='uk-text-bold uk-text-danger uk-text-center'>
+							LÍNEAS NO PROCESADAS
+							{% if informe.archivo %} ARCHIVO : {{informe.archivo.name}}{% endif %}
+						</td>
+					</tr>
+					<tr id='datosIncorrectos'>
+						<td>
+							<ul>
+								{% for key,value in informe.noLeidas %}
+									<li>{{value}}</li>
+								{% endfor %}
+							</ul>
+						</td>
+					</tr>
+				</table>
+			{% endif %}
+			{% if informe.pruebas is defined %}
+				<table class='uk-table'>
+					<tr>
+						<td colspan='2' class='uk-text-bold uk-text-danger uk-text-center'>
+							DROGUERÍAS NO PROCESADAS (ACEPTACIÓN CONTRATO PRUEBAS) : {{ informe.pruebas |length}}
+						</td>
+					</tr>
+					<tr >
+						<td>
+							<ul>
+								{% for key,value in informe.pruebas %}
+									<li>{{value}}</li>
+								{% endfor %}
+							</ul>
+						</td>
+					</tr>
+				</table>
+			{% endif %}
+			{% if logs is defined %}
+					<div class="uk-grid uk-height-1-1" >
+						<div class="uk-panel uk-panel-box uk-width-1-1">
+							<span class='uk-text-bold'>Estado FTP</span><hr>
+							<ul>
+								{% if logs is iterable %}
+	                                {% for value in logs %}
+	                                        <li>{{value}}</li>
+	                                {% endfor %}
+	                            {% else %}
+	                                <li>{{logs}}</li>
+	                            {% endif %}
+							</ul>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
+	    {% endfor %}
+	    {% if sinArchivos %}
+			<div class="uk-grid uk-height-1-1" >
+				<div class="uk-panel uk-panel-box uk-width-1-1">
+					<span class='uk-text-bold'>Proveedor sin archivos</span><hr>
+					<ul>
+						{% if sinArchivos is iterable %}
+							{% for value in sinArchivos %}
+							<li>{{value}}</li>
+							{% endfor %}
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		{% endif %}
+		{% if inventario %}
+			<div class="uk-grid uk-height-1-1" >
+				<div class="uk-panel uk-panel-box uk-width-1-1">
+					<span class='uk-text-bold'>Inventario</span><hr>
+					<ul>
+						{% for key,value in inventario %}
+							{% if key == 'archivo' %}
+								<li>{{value}}</li>
+							{% endif  %}	
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+		<div class="uk-grid uk-height-1-1 uk-text-center uk-text-bold" >
+			<div class="uk-panel uk-panel-box uk-width-1-1">
+				<p>
+					No se encontraron archivos para procesar.
+				</p>
+			</div>
+		</div>
+		{% if inventario %}
+			<div class="uk-grid uk-height-1-1 uk-text-center" >
+				<div class="uk-panel uk-panel-box uk-width-1-1">
+					<span class='uk-text-danger'>Inventario generado</span><hr>
+						{% for key,value in inventario %}
+							{% if key == 'archivo' %}
+								{{value}}
+							{% endif  %}	
+						{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}	
+	
+
+	<script type="text/javascript">
+		$().ready(function(){
+			$('#cargaC').hide();
+		});
+	</script>

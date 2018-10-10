@@ -1,0 +1,130 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    host_ftp: '190.255.45.4'
+    pass_ftp: 'Fcopi*0865'
+    user_ftp: 'adminftp'
+    port: 21
+framework:
+    #esi:             ~
+    #translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host1%"
+                port:     "%database_port1%"
+                dbname:   "%database_name1%"
+                user:     "%database_user1%"
+                password: "%database_password1%"
+                charset:  UTF8
+            sipasociados:
+                driver:    "%database_driver%"
+                host:     "%database_host2%"
+                port:     "%database_port2%"
+                dbname:   "%database_name2%"
+                user:     "%database_user2%"
+                password: "%database_password2%"
+                charset:  UTF8
+            convenios:
+                driver:    "%database_driver%"
+                host:     "%database_host3%"
+                port:     "%database_port3%"
+                dbname:   "%database_name3%"
+                user:     "%database_user3%"
+                password: "%database_password3%"
+                charset:  UTF8
+            sipproveedores:
+                driver:   "%database_driver%"
+                host:     "%database_host4%"
+                port:     "%database_port4%"
+                dbname:   "%database_name4%"
+                user:     "%database_user4%"
+                password: "%database_password4%"
+                charset:  UTF8
+
+
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        #naming_strategy: doctrine.orm.naming_strategy.underscore
+        #auto_mapping: false
+        default_entity_manager:   default
+        entity_managers:
+            default:
+                connection:       default
+                mappings:
+                    FTPAdministradorBundle: ~
+            sipasociados:
+                connection:       sipasociados
+                mappings:
+                    FTPAdministradorBundle: ~
+            convenios:
+                connection:       convenios
+                mappings:
+                    FTPAdministradorBundle: ~
+            sipproveedores:
+                connection:       sipproveedores
+                mappings:
+                    FTPAdministradorBundle: 
+                       dir:       "%kernel.root_dir%/../src/FTP/AdministradorBundle/Entity/sipproveedores/"   
+                       is_bundle: false
+                       type:      annotation
+                       prefix:    FTP\AdministradorBundle\Entity\sipproveedores\
+                       alias:     SipproveedoresEntity
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    auth_mode: cram-md5

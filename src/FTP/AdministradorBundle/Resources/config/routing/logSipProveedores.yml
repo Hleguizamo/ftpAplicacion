@@ -1,0 +1,19 @@
+log_sip_proveedores:
+    pattern:  /
+    defaults: { _controller: "FTPAdministradorBundle:SIPProveedores:index" }
+
+log_sip_proveedores_xml:
+    pattern:  /xml
+    defaults: { _controller: "FTPAdministradorBundle:SIPProveedores:xml" } 
+
+log_sip_proveedores_detalle:
+    pattern:  /{id}/detalle
+    defaults: { _controller: "FTPAdministradorBundle:SIPProveedores:detalle" } 
+    options:
+        expose:    true
+
+log_sip_proveedores:
+    pattern:  /log_sip_proveedores
+    defaults: { _controller: "FTPAdministradorBundle:SIPProveedores:exportAllCsv" }
+
+    

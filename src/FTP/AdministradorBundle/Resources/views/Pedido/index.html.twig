@@ -1,0 +1,81 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Pedido list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Consecutivo</th>
+                <th>Fecha</th>
+                <th>Codigodrogueria</th>
+                <th>Estado</th>
+                <th>Totalpesos</th>
+                <th>Productos</th>
+                <th>Numerocajas</th>
+                <th>Fechaenviadoproveedor</th>
+                <th>Fecharecibidocopidrogas</th>
+                <th>Fechaenviadoasociado</th>
+                <th>Numerofactura</th>
+                <th>Fechaeliminado</th>
+                <th>Cargadoftp</th>
+                <th>Facturacopidrogas</th>
+                <th>Remision</th>
+                <th>Numeroproductos</th>
+                <th>Fechapedido</th>
+                <th>Numeropedido</th>
+                <th>Fechafactura</th>
+                <th>Pedidoprocesado</th>
+                <th>Fechaprocesado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('pedido_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.consecutivo }}</td>
+                <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.codigoDrogueria }}</td>
+                <td>{{ entity.estado }}</td>
+                <td>{{ entity.totalPesos }}</td>
+                <td>{{ entity.productos }}</td>
+                <td>{{ entity.numeroCajas }}</td>
+                <td>{% if entity.fechaEnviadoProveedor %}{{ entity.fechaEnviadoProveedor|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.fechaRecibidoCopidrogas %}{{ entity.fechaRecibidoCopidrogas|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.fechaEnviadoAsociado %}{{ entity.fechaEnviadoAsociado|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.numeroFactura }}</td>
+                <td>{% if entity.fechaEliminado %}{{ entity.fechaEliminado|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.cargadoFtp }}</td>
+                <td>{{ entity.facturaCopidrogas }}</td>
+                <td>{{ entity.remision }}</td>
+                <td>{{ entity.numeroProductos }}</td>
+                <td>{% if entity.fechaPedido %}{{ entity.fechaPedido|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.numeroPedido }}</td>
+                <td>{% if entity.fechaFactura %}{{ entity.fechaFactura|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.pedidoProcesado }}</td>
+                <td>{% if entity.fechaProcesado %}{{ entity.fechaProcesado|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('pedido_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('pedido_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('pedido_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

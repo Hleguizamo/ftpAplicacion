@@ -1,0 +1,4 @@
+ARCHIVO;DROGUERIA;ESTADO;COD PEDIDO;TOTAL PEDIDO;NUM PRODUCTOS;F. CONFIRMADO;PROVEEDOR;
+{% for log in entities %}
+	{{log.nombreArchivo}};{{log.codigoDrogueria}};{{log.estado}};{{log.codigoPedido}};{{log.totalPedido}};{{log.numProductos}};{{log.fechaConfirmado |date('Y-m-d H:i:s') }};{{log.proveedor}};
+{% endfor %}

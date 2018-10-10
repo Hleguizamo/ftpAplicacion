@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <title>FTP-Convenios</title>
+        <style>
+            .e1{font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;color:#1B86B7}
+            .e2{color:#FF0000;}
+            table, th, td{border:1px solid #A6C9E2;border-collapse:collapse;font-family:Arial, Helvetica, sans-serif;color:#555;}
+            td, th{padding:4px;}
+            thead th{text-align:center;background:#1B86B7;color:#FFF;font-size:10px !important;}
+            tbody th{font-weight:bold;}
+            tr{font-size:9px !important;}
+            tr.odd{background:#C6D9EA;color:#E8EEF7;font-size:9px !important;}
+            tfoot th, tfoot td{text-align:right;background:#1B86B7;color:#FFF;font-size:10px !important;}
+            #left{float:left;width:150px;margin:0;padding:0;}
+            #right{float:right;width:150px;margin:0;padding:0;}
+            #middle{margin:0 150px;font-size:80%;}
+            .column-in{margin:0; padding:0.5em 1em;}
+        </style>
+
+    </head>
+    <body>
+
+        <table width="100%" style=" border-style: none; border: none !important;">
+            <tr style=" border-style: none; border: none !important;">
+                <td align="center" width="110px" style=" border-style: none; border: none !important;"><strong><span style="font-size:x-large;"> Pedido SIP CONVENIOS vía FTP.</span> </strong> </td>
+                <td  align="right" style=" border-style: none; border: none !important;"></td>
+            </tr>
+        </table>
+        
+        <span class="e2"><b class="e1">Se ha cargado un pedido con las siguientes condiciones:</span><br/><br/>
+        <span class="e2"><b class="e1">Fecha: </b>{{"now" |date('Y-m-d H:i:s')}}</span><br>
+        <span class="e2"><b class="e1">Proveedor: </b>{{proveedorNombre}}</span><br>
+        <span class="e2"><b class="e1">Droguer&iacute;a: </b>{{clienteNombre}}</span><br>
+        <span class="e2"><b class="e1">Asociado: </b>{{clienteCodigo}}</span><br>
+        <span class="e2"><b class="e1">C&oacute;digo del pedido: </b></span><span class="e2">{{codPedido}}</span><br>
+        <span class="e2"><b class="e1">Detalle del pedido:</b></span><br>
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th>C&Oacute;DIGO</th>
+                    <th>C&Oacute;D.BARRAS</th>
+                    <th>PRODUCTO</th>
+                    <th>PRESENTACION</th>
+                    <th>PRECIO</th>
+                    <th>IVA</th>
+                    <th>DESCUENTO.</th>
+                    <th>Q</th>
+                    <th>$ TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set GranTotal = 0 %}
+                {% if detalle[clienteCodigo] is defined %}
+                    {% for det in detalle[clienteCodigo] %}
+                        {% set Total = 0 %}
+                        <tr>
+                            <td>{{det.codigo}}</td>
+                            <td>{{det.codigoBarras}}</td>
+                            <td>{{det.descripcion}}</td>
+                            <td>{{det.presentacion}}</td>
+                            <td align="right">$ {{det.precio|number_format(0,',','.')}}</td>
+                            <td>{{det.iva}}</td>
+                            <td>{{det.descuento}}</td>
+                            <td>{{det.cantidad}}</td>
+                            <td align="right">
+                                {% set iva = det.iva %}
+                                    {% set descuento = (det.cantidad * det.precio) * det.descuento / 100 %}
+                                {% set prodIva =  ((det.cantidad * det.precio)-descuento) * det.iva / 100 %}
+                                {% set valPro = (det.cantidad * det.precio)- descuento + prodIva %}
+                                {% set Total = valPro %}
+                                {% set GranTotal = GranTotal + Total %}
+
+                                <b>$ {{Total|number_format(0,',','.')}}</b>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" align="right">Total del Pedido:</td>
+                    <th colspan="2" align="right">$ {{GranTotal|number_format(0,',','.')}}</th>
+                </tr>
+            </tfoot>
+        </table>
+
+    </body>
+</html>

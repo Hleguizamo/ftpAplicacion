@@ -1,0 +1,44 @@
+security:
+    encoders:
+        administrador:
+            class: FTP\AdministradorBundle\Entity\Administrador
+            algorithm: plaintext
+
+       
+    providers:
+        administrador:
+            entity: 
+                class: FTP\AdministradorBundle\Entity\Administrador
+                property: usuario
+    firewalls:
+        administrador_login:
+             pattern:  ^/administrador/default/login$
+             security: false
+        administrador_recordar_clave:
+            pattern: ^/administrador/default/recordar_clave$
+            security: false     
+        administrador_login_error:
+             pattern:  ^/administrador/default/loginError/*
+             security: false
+
+        administrador_secured_area:
+            pattern:    ^/administrador/
+            provider: administrador
+            form_login:
+                check_path: /administrador/default/login_check
+                login_path: /administrador/default/login
+                default_target_path: /administrador/default/
+                always_use_default_target_path: true
+                success_handler: administrador.login_success_handler.class
+                failure_handler: administrador.login_success_handler.class
+
+    access_control:
+        administrador_login:
+            path: /administrador/defult/login
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
+        administrador_login_check:
+            path: /administrador/defult/login_check
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
+        administrador_area:
+            path: /administrador/.*
+            roles: [ROLE_ADMINISTRADOR]

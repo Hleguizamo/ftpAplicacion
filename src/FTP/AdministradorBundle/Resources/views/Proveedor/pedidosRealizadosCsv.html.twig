@@ -1,0 +1,6 @@
+Consecutivo; Fecha Pedido; Centro; Codigo Drogueria; Nombre Drogueria; Transferencista/Asociado; Codigo Producto; Descripcion; Codigo de Barras; Cantidad; Remision;
+{% for pedido in pedidos %}
+{% if cliente['centro'][pedido.codigoDrogueria] is defined %}
+{{pedido.consecutivo}};{{pedido.fecha | date('Y-m-d H:i:s')}};{{cliente['centro'][pedido.codigoDrogueria]}};{{pedido.codigoDrogueria}};{{cliente['drogueria'][pedido.codigoDrogueria]}};{% if pedido.transferencistaId %}{{ pedido.nombres }}{% else %}Asociado{% endif %};{{pedido.productoCodigo}};{{pedido.productoDescripcion}};{{pedido.productoCodigoBarras}};{{pedido.cantidadPedida}};{{pedido.remision}};
+{% endif %}
+{% endfor %}

@@ -1,0 +1,11 @@
+log_admin:
+    pattern:  /
+    defaults: { _controller: "FTPAdministradorBundle:LogAdministrador:index" }
+
+log_admin_exportar:
+    pattern:  /log_admin_exportar
+    defaults: { _controller: "FTPAdministradorBundle:LogAdministrador:exportAllCsv" }
+
+log_admin_xml:
+    pattern:  /log_admin_xml
+    defaults: { _controller: "FTPAdministradorBundle:LogAdministrador:xml" }     

@@ -1,0 +1,7 @@
+configuracion:
+    pattern:  /
+    defaults: { _controller: "FTPAdministradorBundle:Configuracion:index" }
+
+configuracion_update:
+    pattern:  /update
+    defaults: { _controller: "FTPAdministradorBundle:Configuracion:update" }

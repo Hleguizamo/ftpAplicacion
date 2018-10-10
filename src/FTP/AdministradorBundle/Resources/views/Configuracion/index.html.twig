@@ -1,0 +1,40 @@
+{% extends 'FTPAdministradorBundle::interno.html.twig'  %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ parent() }}
+
+    {% include 'FTPAdministradorBundle:Configuracion:index.js.twig' ignore missing %}
+{% endblock javascripts %}
+{% block contenido -%}
+    <form class="uk-form" id='frmCofiguracion' action='#' method='POST'>
+    <table class='uk-table'>
+        <tr>
+            <th>CALVE</th>
+            <th>USUARIO</th>
+            <th>HOST</th>
+        </tr>
+        <tr>
+            <td>
+                <input type='password' name='clave' required value='{% if entity.0.clave is defined %}{{entity.0.clave}}{% endif %}'>
+            </td>
+            <td>
+                <input type='text' name='usuarios' required value='{% if entity.0.usuario is defined %}{{entity.0.usuario}}{% endif %}'>
+            </td>
+            <td>
+                <input type="text" name="host" value='{% if entity.0.host is defined %}{{entity.0.host}}{% endif %}'>
+                
+            </td>
+        </tr>  
+    </table>
+
+    <input type="hidden" name="id" value='{% if entity.0.id is defined %}{{entity.0.id}} {% endif %}' id='idRegistro'>
+    <input type="hidden" name="control" value='{{control}}' id='controlHd'>
+
+    <div class="uk-margin  uk-text-center">
+       <button class="uk-button uk-button-primary" type="submit"  title='Guardar datos'><i class="uk-icon-save"></i>GUARDAR</button>
+    </div> 
+</form>  
+ {% endblock %}
+

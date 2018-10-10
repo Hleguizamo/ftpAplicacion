@@ -1,0 +1,91 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Cliente list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Zona</th>
+                <th>Codigo</th>
+                <th>Bloqueod</th>
+                <th>Drogueria</th>
+                <th>Nit</th>
+                <th>Bloqueor</th>
+                <th>Asociado</th>
+                <th>Nitdv</th>
+                <th>Direcion</th>
+                <th>Codmun</th>
+                <th>Ciudad</th>
+                <th>Ruta</th>
+                <th>Ungeogra</th>
+                <th>Depto</th>
+                <th>Telefono</th>
+                <th>Centro</th>
+                <th>Ps</th>
+                <th>Pcarga</th>
+                <th>Diskette</th>
+                <th>Clientetiempo</th>
+                <th>Email</th>
+                <th>Emailasociado</th>
+                <th>Tipocliente</th>
+                <th>Cupoasociado</th>
+                <th>Codigodestinatario</th>
+                <th>Direccion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('cliente_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.zona }}</td>
+                <td>{{ entity.codigo }}</td>
+                <td>{{ entity.bloqueoD }}</td>
+                <td>{{ entity.drogueria }}</td>
+                <td>{{ entity.nit }}</td>
+                <td>{{ entity.bloqueoR }}</td>
+                <td>{{ entity.asociado }}</td>
+                <td>{{ entity.nitDv }}</td>
+                <td>{{ entity.direcion }}</td>
+                <td>{{ entity.codMun }}</td>
+                <td>{{ entity.ciudad }}</td>
+                <td>{{ entity.ruta }}</td>
+                <td>{{ entity.unGeogra }}</td>
+                <td>{{ entity.depto }}</td>
+                <td>{{ entity.telefono }}</td>
+                <td>{{ entity.centro }}</td>
+                <td>{{ entity.pS }}</td>
+                <td>{{ entity.pCarga }}</td>
+                <td>{{ entity.diskette }}</td>
+                <td>{% if entity.clienteTiempo %}{{ entity.clienteTiempo|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.email }}</td>
+                <td>{{ entity.emailAsociado }}</td>
+                <td>{{ entity.tipoCliente }}</td>
+                <td>{{ entity.cupoAsociado }}</td>
+                <td>{{ entity.codigoDestinatario }}</td>
+                <td>{{ entity.direccion }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('cliente_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('cliente_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('cliente_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

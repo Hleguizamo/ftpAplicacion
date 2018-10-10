@@ -1,0 +1,155 @@
+<form class="uk-form" id='frmProveedor' action='#' method='POST'>
+    <table class='uk-table'>
+        <tr>
+            <th>PROVEEDOR</th>
+            <th>CÓDIGO</th>
+            <th>NIT</th>
+        </tr>
+        <tr>
+            <td>
+                <input type='text' name='proveedor' required>
+            </td>
+            <td>
+                <input type='text' name='codigoProveedor' required class='uk-form-width-small'>
+            </td>
+            <td>
+                <input type="text" name="nit" >
+            </td>
+        </tr>
+        <tr>
+            <th>ESTADO TRANSFERENCIA</th>
+            <th >ESTADO CONVENIOS</th>
+            <th >NOMBRE DE LA CARPETA RAÍZ</th>
+        </tr> 
+        <tr>
+            <td>
+                <select name='estadoTransferencia'>
+                    <option value='1'>Activo</option>
+                    <option value='0'>Inactivo</option>
+                </select>
+            </td>
+            <td >
+                <select name='estadoConvenios'>
+                    <option value='1'>Activo</option>
+                    <option value='0'>Inactivo</option>
+                </select>
+            </td>
+            <td>
+                <input type='text' name='carpetaRaiz' required class='uk-form-width-medium' ><br>
+                <span class="uk-text-small uk-text-bold uk-text-danger" >
+                    Porfavor ingrese el nombre sin espacios ni caracteres espciales.ej:
+                    <ul class="uk-text-primary">
+                        <li>nombre-proveedor</li>
+                        <li>nombre_proveedor</li>
+                        <li>proveedor</li>
+                    </ul>
+                </span>
+            </td>
+        </tr>
+         <tr>
+            <th>ENCARGADO</th>
+            <th>EMAIL</th>
+            <th>ESTADO</th>
+        </tr>
+        <tr>
+            <td>
+                <input type='text' name='encargado' required>
+            </td>
+            <td>
+                <input type='email' name='emailEncargado' required>
+            </td>
+            <td>
+                <select name='estado'>
+                    <option value='1'>Activo</option>
+                    <option value='0'>Inactivo</option>
+                </select>
+            </td>
+        </tr>
+         
+    </table>
+    <div class="uk-margin  uk-text-center">
+       <button class="uk-button uk-button-primary" type="submit"  ><i class="uk-icon-save"></i>GUARDAR</button>
+       <button class="uk-button" type="reset"  ><i class="uk-icon-eraser" ></i>LIMPIAR</button>
+    </div> 
+</form>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('button').tooltip();
+
+         $('#frmProveedor').submit(function(){
+           
+            
+          //  if(validarVacios()){
+                $.ajax({
+                    type: "POST",
+                    url:'{{path("proveedor_create")}}',              
+                    data:$("#frmProveedor").serialize(),
+                    beforeSend:function(){
+                         noty({layout:'center',text:'Procesando, por favor espere...<br><center><i class="uk-icon-refresh uk-icon-spin uk-icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']});
+                    },
+                    success: function(data) {
+                     
+                         if(data.respuesta==2){
+                            reloadGrid();
+                            $.noty.closeAll();
+                            AlertaPersonalizable('Proveedor creado correctamente',850,'information');
+                            $("#dialog").dialog('close');
+                            
+                         }
+                         if(data.respuesta==3){
+                            $.noty.closeAll();
+                            AlertaPersonalizable('El NIT ingresado ya se encuentra registrado con otro proveedor.',1000,'warning');
+                         }
+
+                         if(data.respuesta==4){
+                            $.noty.closeAll();
+                            AlertaPersonalizable('El código del proveedor ingresado ya se encuentra registrado con otro proveedor.',1000,'warning');
+                         }
+
+                         if(data.respuesta==5){
+                            $.noty.closeAll();
+                            AlertaPersonalizable('El nombre de la carpeta  ingresada ya se encuentra registrada con otro proveedor.',1500,'warning');
+                         }
+
+                         if(data.respuesta==99){
+                            $.noty.closeAll();
+                            MensajeConfirmacionError('Porfavor complete todos los campos.');
+                         }
+                        
+                    },
+                    error: function() {
+                         $.noty.closeAll();
+                          MensajeConfirmacionError('Se produjo un error al realizar la acción. Porfavor recargue la página e intente de nuevo.');
+                    }
+                });
+           // }
+
+           
+            return false;
+        });
+    });
+
+    //validar campos del formulario
+    function validarVacios(){
+        if($('input[name|="nombres"]').val()=='' ||
+         $('input[name|="usuarios"]').val() =='' || 
+         $('input[name|="clave"]').val() == ''){
+
+            AlertaPersonalizable('Porfavor complete todos los campos.',1000,'warning');
+            return false;
+        }
+        if($('input[name|="clave"]').val()<4){
+
+            AlertaPersonalizable('La longitud de la contraseña es de mínimo 5 caracteres.',1000,'warning'); 
+            return false;   
+        }
+        if($('input[name|="clave"]').val()!=$('input[name|="confirmacion"]').val()){
+            AlertaPersonalizable('Las contraseñas no coinciden.',1000,'warning'); 
+            return false;   
+        }
+
+        return true;
+
+    }
+
+</script>

@@ -1,0 +1,30 @@
+
+parameters:
+  administrador.login_success_handler.class: FTP\AdministradorBundle\Listener\LoginListener
+
+services:
+    administrador.login_success_handler.class:
+        class: %administrador.login_success_handler.class%
+        public: false
+        arguments:  ['@service_container']
+
+    utilidadesAdministrador:
+        class: FTP\AdministradorBundle\Services\Util
+        arguments: ["@service_container"]
+
+    busquedaAdministrador:
+        class: FTP\AdministradorBundle\Services\BusquedaGrilla
+        arguments: ["@service_container"]
+
+    generarArchivos:
+        class: FTP\AdministradorBundle\Services\GenerarArchivos
+        arguments: ["@service_container"]
+
+    procesarArchivos:
+        class: FTP\AdministradorBundle\Services\SIPProveedoresPedidos
+        arguments: ["@service_container"]
+
+    FTP.twig.wa_extension:
+        class: FTP\AdministradorBundle\Twig\WAExtension
+        tags:
+                - { name: twig.extension }

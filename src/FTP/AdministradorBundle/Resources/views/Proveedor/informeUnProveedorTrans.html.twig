@@ -1,0 +1,165 @@
+	{% if carpetas %}
+		<div class='uk-container uk-text-bold uk-text-center'>
+			{{carpetas}}
+		</div>	
+	{% else %}
+		{% if archivos %}
+			{% for archivo in archivos%}
+				<div class='uk-container uk-text-bold uk-text-center'>
+					{{archivo}}
+				</div>
+				{% if consecutivos[archivo] is defined %}
+					<div class='uk-container uk-text-bold uk-text-center'>
+						Pedidos insertados: {{consecutivos[archivo] |length }}
+						{% set cont=1 %}
+					</div>
+					{% for codigo,consecutivo in consecutivos[archivo] %}
+						<table class='uk-table'>
+							<tr>
+								<td colspan='2'>
+									<span class='uk-text-primary uk-text-small'>Pedido número: {{cont}}</span>
+									{% set cont=cont+1 %}
+								</td>
+							</tr>
+							<tr>
+								<td colspan='2'>
+									<strong>Pedido N°: </strong>
+									{{consecutivo}}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Droguería: </strong>
+									{{datosPedido[archivo][consecutivo]['drogueria']}}
+								</td>
+								<td>
+									<strong>Código: </strong>
+									{{codigo}}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Total de productos: </strong>
+									{{datosPedido[archivo][consecutivo]['totalProductos']}}
+								</td>
+								<td>
+									<strong>Total: $ </strong>
+									{{datosPedido[archivo][consecutivo]['totalPedido'] |number_format(0, '', '.') }}
+								</td>
+							</tr>
+						</table>
+
+
+						<table class='uk-table uk-text-small'>
+							{% if productosInsertados[archivo][consecutivo]['pedidos'] is defined %}
+								<tr>
+									<td colspan='2' class='uk-text-center'><strong>PRODUCTOS INGRESADOS</strong></td>
+								</tr>
+								{% for value in productosInsertados[archivo][consecutivo]['pedidos'] %}
+									<tr>
+										<td colspan='2'>
+											{{value}}
+										</td>
+									</tr>	
+								{% endfor %}
+								
+							{% endif %}	
+							{% if productosInsertados[archivo][consecutivo]['kits'] is defined %}
+								<tr>
+									<td colspan='2' class='uk-text-center'>
+										<strong>KITS INGRESADOS</strong>
+									</td>
+								</tr>
+								{% for value in productosInsertados[archivo][consecutivo]['kits'] %}
+									<tr >
+										<td colspan='2'>
+											{{value}}
+										</td>
+									</tr>	
+								{% endfor %}
+							
+							{% endif %}	
+							{% if productosInsertados[archivo][consecutivo]['prepack'] is defined %}
+								<tr>
+									<td colspan='2'>
+										<strong class='uk-text-center'>PREPACKS INGRESADOS</strong>
+									</td>
+								</tr>
+								{% for value in productosInsertados[archivo][consecutivo]['prepack'] %}
+									<tr >
+										<td colspan='2'>
+											{{value}}
+										</td>
+									</tr>	
+								{% endfor %}
+							{% endif %}			
+						</table>
+					{% endfor %}
+				{% endif %}
+
+				{% if noLeidas[archivo]  is defined %}
+					<table class='uk-table'>
+						<tr>
+							<td><strong>Líneas no leidas</strong></td>
+						</tr>
+						{% for linea in noLeidas[archivo] %}
+							<tr>
+								<td>
+									{{linea}}
+								</td>
+							</tr>
+						{% endfor %}
+					</table>	
+				{% endif %}
+
+				{% if estadoFTP[archivo] is defined %}
+				  	<table class='uk-table'>
+						<tr>
+							<td><strong>Estado FTP</strong></td>
+						</tr>
+						{% for ftp in estadoFTP[archivo] %}
+							<tr>
+								<td>
+									{{ftp}}
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				{% endif %}
+				{% if errorArchivo[archivo] is defined %}
+				  	<table class='uk-table'>
+						<tr>
+							<td><strong>Error en el archivo</strong></td>
+						</tr>
+						<tr>
+							<td>{{errorArchivo[archivo]}}</td>
+						</tr>
+					</table>
+				{% endif %}
+
+			{% endfor %}
+		{% endif %}
+		{% if consecutivos is empty %}
+			<p>No se encontraron archivos para procesar. </p>
+		{% endif %}
+		{% if inventarioTxt %}
+		  	<table class='uk-table'>
+				<tr>
+					<td><strong>Inventario cargado</strong></td>
+				</tr>
+				{% for inventario in inventarioTxt %}
+					<tr>
+						<td>
+							{{inventario}}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+	{% endif %}	
+	
+	<script type="text/javascript">
+		$().ready(function(){
+			$('#cargaT').hide();
+		});
+	</script>

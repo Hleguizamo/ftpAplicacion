@@ -1,0 +1,112 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Pedido</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Consecutivo</th>
+                <td>{{ entity.consecutivo }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{{ entity.fecha|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Codigodrogueria</th>
+                <td>{{ entity.codigoDrogueria }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ entity.estado }}</td>
+            </tr>
+            <tr>
+                <th>Totalpesos</th>
+                <td>{{ entity.totalPesos }}</td>
+            </tr>
+            <tr>
+                <th>Productos</th>
+                <td>{{ entity.productos }}</td>
+            </tr>
+            <tr>
+                <th>Numerocajas</th>
+                <td>{{ entity.numeroCajas }}</td>
+            </tr>
+            <tr>
+                <th>Fechaenviadoproveedor</th>
+                <td>{{ entity.fechaEnviadoProveedor|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Fecharecibidocopidrogas</th>
+                <td>{{ entity.fechaRecibidoCopidrogas|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Fechaenviadoasociado</th>
+                <td>{{ entity.fechaEnviadoAsociado|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Numerofactura</th>
+                <td>{{ entity.numeroFactura }}</td>
+            </tr>
+            <tr>
+                <th>Fechaeliminado</th>
+                <td>{{ entity.fechaEliminado|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Cargadoftp</th>
+                <td>{{ entity.cargadoFtp }}</td>
+            </tr>
+            <tr>
+                <th>Facturacopidrogas</th>
+                <td>{{ entity.facturaCopidrogas }}</td>
+            </tr>
+            <tr>
+                <th>Remision</th>
+                <td>{{ entity.remision }}</td>
+            </tr>
+            <tr>
+                <th>Numeroproductos</th>
+                <td>{{ entity.numeroProductos }}</td>
+            </tr>
+            <tr>
+                <th>Fechapedido</th>
+                <td>{{ entity.fechaPedido|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Numeropedido</th>
+                <td>{{ entity.numeroPedido }}</td>
+            </tr>
+            <tr>
+                <th>Fechafactura</th>
+                <td>{{ entity.fechaFactura|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Pedidoprocesado</th>
+                <td>{{ entity.pedidoProcesado }}</td>
+            </tr>
+            <tr>
+                <th>Fechaprocesado</th>
+                <td>{{ entity.fechaProcesado|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('pedido') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('pedido_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
