@@ -1,7 +1,7 @@
 /app/config/parameters.yml
-app/config/parameters.yml.dist
-composer.json
-web/app_dev.php
+/app/config/parameters.yml.dist
+/composer.json
+/web/app_dev.php
 /build/
 /phpunit.xml
 /var/*
@@ -29,25 +29,26 @@ global.conf
 
 
 # -- Symfony2 -----------------------------------------
-app/bootstrap.php.cache
-app/bootstrap_cache.php.cache
-app/config/parameters.ini
-app/config/parameters.yml
-app/cache/*
-app/logs/*
-vendor/*
-web/bundles/*
-web/css/*
-web/js/*
-web/uploads/*
+/app/bootstrap.php.cache
+/app/bootstrap_cache.php.cache
+/app/config/parameters.ini
+/app/config/parameters.yml
+/app/cache/*
+/app/logs/*
+/vendor/*
+/web/bundles/*
+/web/css/*
+/web/js/*
+/web/uploads/*
  
 # -- Composer -----------------------------------------
-composer.phar
+/composer.phar
  
 # -- PHPUnit ------------------------------------------
-app/phpunit.xml  
+/app/phpunit.xml  
  
 # -- Editores -----------------------------------------
+
 # vim
 .*.sw[a-z]
 *.un~
